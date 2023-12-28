@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('head'); %>
+<style>
+
+.dropzone {
+  /* background-color: #bfe4ff; */
+  border: dashed 4px transparent;
+  border-radius: 4px;
+  margin: 10px auto 30px;
+  padding: 10px;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.drop-active {
+  border-color: #aaa;
+}
+
+.drop-target {
+  background-color: #29e;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.drag-drop {
+  /* display: inline-block; */
+  /* min-width: 40px; */
+  /* padding: 2em 0.5em; */
+  /* margin: 1rem 0 0 1rem; */
+
+  color: #fff;
+  background-color: #29e;
+  border: solid 2px #fff;
+
+  touch-action: none;
+  /* transform: translate(0px, 0px); */
+
+  transition: background-color 0.3s;
+}
+
+.drag-drop.can-drop {
+  color: #000;
+  background-color: #4e4;
+}
+.container-tache{
+    height: 100vh;
+}
+</style>
+
+<script>var liste_tache = "<%=liste_tache%>";</script>
+
+<body class="bg-theme bg-theme1">
+
+    <!-- Start wrapper-->
+    <div id="wrapper">
+
+        <!--Start sidebar-wrapper-->
+        <%- include('sidebar'); %>
+            <!--End sidebar-wrapper-->
+
+            <!--Start topbar header-->
+            <%- include('header'); %>
+                <!--End topbar header-->
+
+                <div class="clearfix"></div>
+
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+
+                        <!-- <div id="yes-drop" class="drag-drop card"> #yes-drop </div> -->
+                        <!-- <div id="yes-drop" class="drag-drop card"> #yes-drop 2</div> -->
+
+                        <!-- <div class="dropzone">
+                        #outer-dropzone
+                        <div id="yes-drop" class="drag-drop card"> #yes-drop </div>
+                        </div>
+                        <div class="dropzone">#inner-dropzone</div>
+
+                        <div class="dropzone">#inner-dropzone</div> -->
+
+                        <!--Start Dashboard Content-->
+
+                        <div class="row">
+                            <div class="col-3 col-lg-3 h-100">
+                                <span class="badge text-bg-primary">A faire</span>
+                                <div class="container-tache dropzone" id="afaire">
+
+                                </div>
+                                
+                            </div>
+                            <div class="col-3 col-lg-3 h-100">
+                                <span class="badge text-bg-warning">En cours</span>
+                                <div class="container-tache dropzone" id="encours">
+
+                                </div>
+                                
+                            </div>
+                            <div class="col-3 col-lg-3 h-100">
+                                <span class="badge text-bg-success">Terminé</span>
+                                <div class="container-tache dropzone" id="termine">
+
+                                </div>
+                                
+                            </div>
+                            <div class="col-3 col-lg-3 h-100">
+                                <span class="badge text-bg-danger">Bloqué</span>
+                                <div class="container-tache dropzone" id="bloque">
+
+                                        
+                                </div>
+                                
+                            </div>
+                        </div><!--End Row-->
+
+                        <!--End Dashboard Content-->
+
+                        <!--start overlay-->
+                        <div class="overlay toggle-menu"></div>
+                        <!--end overlay-->
+
+                    </div>
+                    <!-- End container-fluid-->
+
+                </div><!--End content-wrapper-->
+                <!--Start Back To Top Button-->
+                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                <!--End Back To Top Button-->
+
+                <!--Start footer-->
+                <%- include('footer'); %>
+                    <!--End footer-->
+
+                    <!--start color switcher-->
+                    <%- include('parametre'); %>
+                        <!--end color switcher-->
+
+    </div><!--End wrapper-->
+
+    <!-- Bootstrap core JavaScript-->
+
+    <%- include('script'); %>
+
+
+</body>
+</html>
+<script>
+
+    // console.log(liste_tache);
+
+    // for(let li of JSON.parse(liste_tache)){
+    //     console.log(li);
+    // }
+
+    // let li = liste_tache
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const proje_id = urlParams.get('id');
+
+    // console.log(myParam);
+    // let id = 
+    fetch("/projet/getAllByProjectId/"+proje_id).then(res=>res.json())
+    .then(data=>{
+        let htm_afaire =""
+        let htm_encours =""
+        let htm_termine =""
+        let htm_bloque =""
+
+        for(let tache of data){
+            if(tache.status == 1){
+                // htm_afaire+=`<div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id} id="veloma">
+                //     <div class="card-header">Tache n°${tache.id}</div>
+                //     <div class="card-body">
+                //         <h5 class="card-title">${tache.name}</h5>
+                //         <p class="card-text">${tache.description}</p>
+                //     </div>
+                // </div>`
+                htm_afaire+=`<div id="yes-drop" class="drag-drop card"> ${tache.name}</div>`
+                
+            }else if(tache.status == 2){
+                htm_encours+=`
+                    <div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id}>
+                        <div class="card-header">Tache n°${tache.id}</div>
+                        <div class="card-body">
+                            <h5 class="card-title">${tache.name}</h5>
+                            <p class="card-text">${tache.description}</p>
+                        </div>
+                    </div>`
+            }else if(tache.status == 3){
+                htm_termine+=`<div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id}>
+                    <div class="card-header">Tache n°${tache.id}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">${tache.name}</h5>
+                        <p class="card-text">${tache.description}</p>
+                    </div>
+                </div>`
+            }else{
+                htm_bloque+=`
+                <div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id}>
+                    <div class="card-header">Tache n°${tache.id}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">${tache.name}</h5>
+                        <p class="card-text">${tache.description}</p>
+                    </div>
+                </div>`
+            }
+        }
+        // console.log(data);
+        document.querySelector("#afaire").innerHTML = htm_afaire
+        document.querySelector("#encours").innerHTML = htm_encours
+        document.querySelector("#termine").innerHTML = htm_termine
+        document.querySelector("#bloque").innerHTML = htm_bloque
+    })
+
+    function dragMoveListener (event) {
+    var target = event.target
+    // keep the dragged position in the data-x/data-y attributes
+    var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+    var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+    // translate the element
+    target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x)
+    target.setAttribute('data-y', y)
+    }
+
+    /* The dragging code for '.draggable' from the demo above
+    * applies to this demo as well so it doesn't have to be repeated. */
+
+    // enable draggables to be dropped into this
+    interact('.dropzone').dropzone({
+    // only accept elements matching this CSS selector
+    // accept: '#yes-drop',
+    accept: '.card',
+    // Require a 75% element overlap for a drop to be possible
+    overlap: 0.75,
+
+    // listen for drop related events:
+
+    ondropactivate: function (event) {
+        // add active dropzone feedback
+        event.target.classList.add('drop-active')
+    },
+    ondragenter: function (event) {
+        var draggableElement = event.relatedTarget
+        var dropzoneElement = event.target
+
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target')
+        draggableElement.classList.add('can-drop')
+        // draggableElement.textContent = 'Dragged in'
+    },
+    ondragleave: function (event) {
+        // remove the drop feedback style
+        event.target.classList.remove('drop-target')
+        event.relatedTarget.classList.remove('can-drop')
+        // event.relatedTarget.textContent = 'Dragged out'
+    },
+    ondrop: function (event) {
+        // event.relatedTarget.textContent = 'Dropped'
+        // dropzoneElement.classList.add('drop-target')
+        // event.relatedTarget.classList.remove('can-drop')
+        // let status = event.target.id == "outer-dropzone"? 1 : 0;
+        let status = event.target.id
+
+        // document.appendChild(event.target)
+
+        // event.target.remove()
+
+        // event.target.appendChild()
+        // window.reload()
+
+        let id= event.relatedTarget.getAttribute("data-id")
+
+        let status_nbr = 0;
+
+        if(status == "afaire"){
+            status_nbr = 1;
+        }else if(status == "encours"){
+            status_nbr = 2;
+        }else if(status == "termine"){
+            status_nbr = 3;
+        }else if(status == "bloque"){
+            status_nbr = 4;
+        }else{
+            status_nbr = 1;
+        }
+
+        console.log(status_nbr);
+        console.log(id);
+
+        // let type= document.querySelector("#data-view").textContent.trim()
+        let data = {
+            id : id,
+            status : status
+        }
+
+    },
+    ondropdeactivate: function (event) {
+        // remove active dropzone feedback
+        event.target.classList.remove('drop-active')
+        event.target.classList.remove('drop-target')
+    }
+    })
+
+    // window.dragMoveListener = dragMoveListener;
+    interact('.drag-drop')
+    .draggable({
+        inertia: true,
+        modifiers: [
+        interact.modifiers.restrictRect({
+            // restriction: 'parent',
+            restriction: 'child',
+            endOnly: true
+        })
+        ],
+        autoScroll: true,
+        // dragMoveListener from the dragging demo above
+        listeners: { move: dragMoveListener }
+    })
+    
+
+</script>

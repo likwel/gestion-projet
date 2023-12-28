@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('head'); %>
+
+<body class="bg-theme bg-theme1">
+
+    <!-- Start wrapper-->
+    <div id="wrapper">
+
+        <!--Start sidebar-wrapper-->
+        <%- include('sidebar'); %>
+            <!--End sidebar-wrapper-->
+
+            <!--Start topbar header-->
+            <%- include('header'); %>
+                <!--End topbar header-->
+
+                <div class="clearfix"></div>
+
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+
+                        <!--Start Dashboard Content-->
+
+                        <div class="row">
+                            
+                            <div class="col-12 col-lg-12">
+
+                                <a href="/equipe/create" class="btn btn-light px-5 my-3"><i class="zmdi zmdi-account-add"></i> Ajouter un équipe</a>
+
+                                <div class="card">
+                                    <div class="card-header">Liste des equipes par fonction
+                                        <div class="card-action">
+                                            <div class="dropdown">
+                                                <a href="javascript:void();"
+                                                    class="dropdown-toggle dropdown-toggle-nocaret"
+                                                    data-toggle="dropdown">
+                                                    <i class="icon-options"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="javascript:void();">Action</a>
+                                                    <a class="dropdown-item" href="javascript:void();">Another
+                                                        action</a>
+                                                    <a class="dropdown-item" href="javascript:void();">Something else
+                                                        here</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void();">Separated
+                                                        link</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom d'equipe</th>
+                                                    <th>ID</th>
+                                                    <th>Fonction</th>
+                                                    <th>Salaire</th>
+                                                    <th>Date d'entrée</th>
+                                                    <th>Expérience</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="list-users">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Row-->
+
+                        <!--End Dashboard Content-->
+
+                        <!--start overlay-->
+                        <div class="overlay toggle-menu"></div>
+                        <!--end overlay-->
+
+                    </div>
+                    <!-- End container-fluid-->
+
+                </div><!--End content-wrapper-->
+                <!--Start Back To Top Button-->
+                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                <!--End Back To Top Button-->
+
+                <!--Start footer-->
+                <%- include('footer'); %>
+                    <!--End footer-->
+
+                    <!--start color switcher-->
+                    <%- include('parametre'); %>
+                        <!--end color switcher-->
+
+    </div><!--End wrapper-->
+
+    <!-- Bootstrap core JavaScript-->
+
+    <%- include('script'); %>
+
+
+</body>
+</html>
+
+<script>
+    fetch("/equipe/get_all_equipe").then(res=>res.json()).then(res=>{
+        console.log(res);
+
+        let htm ="";
+
+        for(let user of res){
+            htm+=`<tr>
+                    <td><img src="https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcQN9xj4vlx7c7VZSnGBKoEFOF6WuiYqcu9cTn7156lf4WKlRxnMANYFNTMQF2iNA-pi"
+                            class="product-img" alt="product img">
+                            ${user.fullname}
+                    </td>
+                    <td>${user.id}</td>
+                    <td>${user.roles}</td>
+                    <td>${user.salary} Ar</td>
+                    <td>${user.createdAt}</td>
+                    <td>
+                        <div class="progress shadow" style="height: 3px;">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: 90%"></div>
+                        </div>
+                    </td>
+                </tr>`
+        }
+
+        document.querySelector("#list-users").innerHTML =htm
+    })
+</script>

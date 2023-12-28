@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('head'); %>
+
+    <body class="bg-theme bg-theme1">
+
+        <!-- Start wrapper-->
+        <div id="wrapper">
+
+            <!--Start sidebar-wrapper-->
+            <%- include('sidebar'); %>
+                <!--End sidebar-wrapper-->
+
+                <!--Start topbar header-->
+                <%- include('header'); %>
+                    <!--End topbar header-->
+
+                    <div class="clearfix"></div>
+
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+
+                            <!--Start Dashboard Content-->
+
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">Création d'un utilisateur</div>
+                                        <hr>
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="input-1">Nom complet</label>
+                                                <input type="text" class="form-control" id="input-0"
+                                                    placeholder="Entrer le nom">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-1">Nom d'utilisateur</label>
+                                                <input type="text" class="form-control" id="input-1"
+                                                    placeholder="Entrer le nom d'utilisateur">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-2">E-mail</label>
+                                                <input type="text" class="form-control" id="input-2"
+                                                    placeholder="Entrer l'e-mail">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-3">Rôles</label>
+                                                <input type="text" class="form-control" id="input-3"
+                                                    placeholder="Entrer le rôles">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-4">Mot de passe</label>
+                                                <input type="text" class="form-control" id="input-4"
+                                                    placeholder="Entrer le mot de passe">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-5">Confirmer le mot de passe</label>
+                                                <input type="text" class="form-control" id="input-5"
+                                                    placeholder="Confirmer le mot de passe">
+                                            </div>
+                                            <div class="form-group py-2">
+                                                <div class="icheck-material-white">
+                                                    <input type="checkbox" id="user-checkbox1" checked="" />
+                                                    <label for="user-checkbox1">I Agree Terms & Conditions</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-light px-5" onsubmit="sendDataUser()"><i
+                                                        class="icon-lock"></i> Enregistrer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Start footer-->
+                            <%- include('footer'); %>
+                                <!--End footer-->
+
+                                <!--start color switcher-->
+                                <%- include('parametre'); %>
+                                    <!--end color switcher-->
+
+                        </div><!--End wrapper-->
+
+                        <!-- Bootstrap core JavaScript-->
+
+                        <%- include('script'); %>
+
+
+    </body>
+
+</html>
+
+<script>
+
+    function sendDataUser(){
+
+        let data = {
+
+            
+
+        }
+
+        fetch("/equipe/signup",{
+            method : "POST",
+            headers :{
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(data),
+        })
+    }
+
+</script>
