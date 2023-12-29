@@ -27,32 +27,30 @@ router.get('/', (req, res) => {
     // let id = req.params.projet_id
 
 
+    if(projet_id){
+        res.render("tache")
+    }else{
+        res.redirect("/")
+    }
+
     // if(projet_id){
-    //     res.render("tache", {
-            
+    //     Tache.findAll({
+    //         where : {
+    //             projet_id : projet_id
+    //         }
+    //     }).then(result => {
+    //         if(result){
+    //             res.render("tache", {
+    //                 liste_tache : JSON.stringify(result)
+    //             })
+    //         }else{
+    //             res.send("vide")
+    //         }
+    //         // res.send(result);
     //     })
     // }else{
     //     res.redirect("/")
     // }
-
-    if(projet_id){
-        Tache.findAll({
-            where : {
-                projet_id : projet_id
-            }
-        }).then(result => {
-            if(result){
-                res.render("tache", {
-                    liste_tache : JSON.stringify(result)
-                })
-            }else{
-                res.send("vide")
-            }
-            // res.send(result);
-        })
-    }else{
-        res.redirect("/")
-    }
 
 })
 

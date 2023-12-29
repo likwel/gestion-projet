@@ -33,6 +33,26 @@ const allTacheByStatus = async (req, res) => {
     })
 }
 
+const updateTache = async (req, res) => {
+
+    Tache.update({ status: req.params.status }, {
+        where: {
+            id : req.params.id_tache
+        }
+      });
+
+}
+
+const getTacheById = async (req, res) => {
+    Tache.findOne({
+        where : {
+            id : req.params.id
+        }
+    }).then(result => {
+        res.send(result);
+    })
+}
+
 // const saveProject = async (req, res) => {
 //     Project.create({
 //         name : req.body.name,
@@ -54,4 +74,6 @@ module.exports = {
     allTache,
     allTacheByIdProject,
     allTacheByStatus,
+    updateTache,
+    getTacheById,
 };

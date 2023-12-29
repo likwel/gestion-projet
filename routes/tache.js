@@ -1,7 +1,7 @@
 //importing modules
 const express = require('express')
 const tacheController = require('../Controllers/tache')
-const { allTache, allTacheByIdProject, allTacheByStatus } = tacheController
+const { allTache, allTacheByIdProject, allTacheByStatus, updateTache,getTacheById } = tacheController
 // const userAuth = require('../middleware/equipe')
 
 let allTacheById ="";
@@ -10,7 +10,9 @@ const router = express.Router()
 
 //signup endpoint
 //passing the middleware function to the signup
-// router.post('/create', saveProject)
+router.post('/update/:id_tache/:status', updateTache)
+
+router.get('/tache/getById/:id', getTacheById)
 
 router.get('/getAllByProjectId/:projet_id', allTacheByIdProject)
 
