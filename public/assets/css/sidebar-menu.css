@@ -232,3 +232,7 @@
 .sidebar-menu-rtl .sidebar-submenu>li>a:hover {
 	color: #fff;
 }
+
+.liste_projet{
+	overflow-y: auto;
+}

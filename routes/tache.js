@@ -1,7 +1,7 @@
 //importing modules
 const express = require('express')
 const tacheController = require('../Controllers/tache')
-const { allTache, allTacheByIdProject, allTacheByStatus, updateTache,getTacheById } = tacheController
+const { allTache, allTacheByIdProject, allTacheByStatus, updateTache,getTacheById , saveTache} = tacheController
 // const userAuth = require('../middleware/equipe')
 
 let allTacheById ="";
@@ -20,6 +20,8 @@ router.get('/tache/status/:status', allTacheByStatus)
 
 //login route
 router.get('/getAllTache', allTache)
+
+router.post('/tache/create/:project_id', saveTache)
 
 // router.get('/:id', allTacheById)
 

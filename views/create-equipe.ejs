@@ -30,40 +30,47 @@
                                     <div class="card-body">
                                         <div class="card-title">Création d'un utilisateur</div>
                                         <hr>
-                                        <form>
+                                        <form action="/equipe/signup" method="post">
                                             <div class="form-group">
                                                 <label for="input-1">Nom complet</label>
                                                 <input type="text" class="form-control" id="input-0"
-                                                    placeholder="Entrer le nom">
+                                                    placeholder="Entrer le nom" name="fullname">
                                             </div>
                                             <div class="form-group">
                                                 <label for="input-1">Nom d'utilisateur</label>
                                                 <input type="text" class="form-control" id="input-1"
-                                                    placeholder="Entrer le nom d'utilisateur">
+                                                    placeholder="Entrer le nom d'utilisateur" name="username">
                                             </div>
                                             <div class="form-group">
                                                 <label for="input-2">E-mail</label>
                                                 <input type="text" class="form-control" id="input-2"
-                                                    placeholder="Entrer l'e-mail">
+                                                    placeholder="Entrer l'e-mail" name="email">
                                             </div>
                                             <div class="form-group">
                                                 <label for="input-3">Rôles</label>
-                                                <input type="text" class="form-control" id="input-3"
-                                                    placeholder="Entrer le rôles">
+                                                <!-- <input type="text" class="form-control" id="input-3"
+                                                    placeholder="Entrer le rôles"> -->
+                                                    <select class="form-control" name="roles">
+                                                        <option value="Développeur">Développeur</option>
+                                                        <option value="Data Engineer">Data Engineer</option>
+                                                        <option value="Chef de projet">Chef de projet</option>
+                                                        <option value="Data Analys">Data Analyst</option>
+                                                        <option value="Data Scientist">Data Scientist</option>
+                                                    </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="input-4">Mot de passe</label>
-                                                <input type="text" class="form-control" id="input-4"
-                                                    placeholder="Entrer le mot de passe">
+                                                <input type="password" class="form-control" id="input-4"
+                                                    placeholder="Entrer le mot de passe" name="password">
                                             </div>
                                             <div class="form-group">
                                                 <label for="input-5">Confirmer le mot de passe</label>
-                                                <input type="text" class="form-control" id="input-5"
-                                                    placeholder="Confirmer le mot de passe">
+                                                <input type="password" class="form-control" id="input-5"
+                                                    placeholder="Confirmer le mot de passe" name="repassword">
                                             </div>
                                             <div class="form-group py-2">
                                                 <div class="icheck-material-white">
-                                                    <input type="checkbox" id="user-checkbox1" checked="" />
+                                                    <input type="checkbox" id="user-checkbox1" checked="" name="checked"/>
                                                     <label for="user-checkbox1">I Agree Terms & Conditions</label>
                                                 </div>
                                             </div>

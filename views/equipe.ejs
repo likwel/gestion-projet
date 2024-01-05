@@ -57,10 +57,10 @@
                                         <table class="table align-items-center table-flush table-borderless">
                                             <thead>
                                                 <tr>
-                                                    <th>Nom d'equipe</th>
                                                     <th>ID</th>
+                                                    <th>Nom d'equipe</th>
                                                     <th>Fonction</th>
-                                                    <th>Salaire</th>
+                                                    <!-- <th>Salaire</th> -->
                                                     <th>Date d'entrée</th>
                                                     <th>Expérience</th>
                                                 </tr>
@@ -115,13 +115,13 @@
 
         for(let user of res){
             htm+=`<tr>
+                    <td>${user.id}</td>
                     <td><img src="https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcQN9xj4vlx7c7VZSnGBKoEFOF6WuiYqcu9cTn7156lf4WKlRxnMANYFNTMQF2iNA-pi"
                             class="product-img" alt="product img">
                             ${user.fullname}
                     </td>
-                    <td>${user.id}</td>
                     <td>${user.roles}</td>
-                    <td>${user.salary} Ar</td>
+                    <!--<td>${user.salary} Ar</td>-->
                     <td>${user.createdAt}</td>
                     <td>
                         <div class="progress shadow" style="height: 3px;">

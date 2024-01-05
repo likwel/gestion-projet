@@ -31,10 +31,10 @@ const User = db.define('user', {
         type: Sequelize.TEXT,
         allowNull: true
     },
-    salary : {
-        type: Sequelize.TEXT,
-        allowNull: true
-    },
+    // salary : {
+    //     type: Sequelize.TEXT,
+    //     allowNull: true
+    // },
 });
 
 User.sync().then(() => {

@@ -11,22 +11,30 @@ const User = require('../models/equipe');
 
 //signing a user up
 //hashing users password before its saved to the database with bcrypt
-const signup = async (req, res, data) => {
+const signup = async (req, res) => {
     try {
-        const { username, email, salary, roles, fullname, password } = req.body;
+        const { username, email, roles, fullname, password } = req.body;
         const data = {
-            username,
-            email,
-            salary, 
-            roles, 
-            fullname, 
-            password: await bcrypt.hash(password, 10),
+            username : req.body.username,
+            email : req.body.email,
+            roles : req.body.roles, 
+            fullname : req.body.fullname, 
+            password: await bcrypt.hash(req.body.password, 10),
         };
 
         // data.password = await bcrypt.hash(data.password, 10)
 
         //saving the user
-        const user = await User.create(data);
+        // console.log(req.body.checked);
+
+        if(req.body.password == req.body.repassword && req.body.checked == "on"){
+            User.create(data).then(rep=>{
+                res.redirect("/")
+            });
+        }else{
+            return res.status(409).send("Mot de passe invalide");
+        }
+
 
         //if user details is captured
         //generate token with the user's id and the secretKey in the env file
@@ -46,6 +54,7 @@ const signup = async (req, res, data) => {
             //console.log(token);
             //send users details
             //res.render('login')
+            // res.redirect("/")
             return res.status(200).send(user);
         } else {
             return res.status(409).send("Details are not correct");
@@ -114,8 +123,19 @@ const allUser = async (req, res) => {
     })
 }
 
+const getAllManager = async (req, res) => {
+    User.findAll({
+        where : {
+            roles : "Chef de projet"
+        }
+    }).then(result => {
+        res.send(result);
+    })
+}
+
 module.exports = {
     signup,
     login,
     allUser,
+    getAllManager,
 };

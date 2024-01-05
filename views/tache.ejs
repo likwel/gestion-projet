@@ -9,7 +9,8 @@
             /* background-color: #bfe4ff; */
             border: dashed 4px transparent;
             border-radius: 4px;
-            margin: 10px auto 30px;
+            /* margin: 10px auto 30px; */
+            margin: 0px;
             padding: 10px;
             width: 100%;
             transition: background-color 0.3s;
@@ -50,10 +51,98 @@
         .container-tache {
             height: 100vh;
         }
+
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.border-blur {
+  position: absolute;
+  /* width: 300px;
+  height: 400px; */
+  background: transparent;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: blur(50px);
+}
+.box {
+  position: relative;
+  /* width: 300px;
+  height: 400px; */
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.border-blur::before,
+.border-blur::after {
+  border-radius: 50%;
+  /* height: 400px !important;
+  width: 500px !important; */
+}
+.box::after,
+.border-blur::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background-image: conic-gradient(
+    transparent,
+    transparent,
+    transparent,
+    #d400d4
+  );
+  animation: animate 4s linear infinite;
+  animation-delay: -2s;
+}
+.box::before,
+.border-blur::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background-image: conic-gradient(
+    transparent,
+    transparent,
+    transparent,
+    #00ccff
+  );
+  animation: animate 4s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.box span {
+  position: absolute;
+  inset: 5px;
+  border-radius: 16px;
+  /* background: #0c1022; */
+  z-index: 1;
+}
+.box h2 {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 10em;
+}
+
     </style>
 
 
-    <body class="bg-theme bg-theme1">
+    <body class="bg-theme bg-theme1 overflow-hidden">
 
         <!-- Start wrapper-->
         <div id="wrapper">
@@ -69,7 +158,7 @@
                     <div class="clearfix"></div>
 
                     <div class="content-wrapper">
-                        <div class="container-fluid">
+                        <div class="container-fluid overflow-auto">
 
                             <!-- <div id="yes-drop" class="drag-drop card"> #yes-drop </div> -->
                             <!-- <div id="yes-drop" class="drag-drop card"> #yes-drop 2</div> -->
@@ -83,33 +172,41 @@
                         <div class="dropzone">#inner-dropzone</div> -->
 
                             <!--Start Dashboard Content-->
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-primary" onclick="openModalNewTache()"><i class="zmdi zmdi-plus"></i> Créer une nouvelle tâche</button>
+                                <!-- <h3 class="text-warning" id="title-project"></h3> -->
+                                <div class="box">
+                                    <span></span>
+                                    <h3 class="text-warning pr-2 pl-2" id="title-project"></h3>
+                                  </div>
+                                  <!-- <div class="border-blur"></div> -->
+                            </div>
 
-                            <button class="btn btn-primary"><i class="zmdi zmdi-plus"></i> Créer une nouvelle tâche</button>
                             <div class="row">
 
-                                <div class="col-3 col-lg-3 h-100 container">
-                                    <span class="badge text-bg-primary text-center">A faire</span>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-primary">A faire</span>
                                     <div class="container-tache dropzone" id="afaire">
 
                                     </div>
 
                                 </div>
-                                <div class="col-3 col-lg-3 h-100">
-                                    <span class="badge text-bg-warning">En cours</span>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-warning">En cours</span>
                                     <div class="container-tache dropzone" id="encours">
 
                                     </div>
 
                                 </div>
-                                <div class="col-3 col-lg-3 h-100">
-                                    <span class="badge text-bg-success">Terminé</span>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-success">Terminé</span>
                                     <div class="container-tache dropzone" id="termine">
 
                                     </div>
 
                                 </div>
-                                <div class="col-3 col-lg-3 h-100">
-                                    <span class="badge text-bg-danger">Bloqué</span>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-danger">Bloqué</span>
                                     <div class="container-tache dropzone" id="bloque">
 
 
@@ -154,13 +251,20 @@
 </html>
 <script>
 
-    function getAllTache() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const proje_id = urlParams.get('id');
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const proje_id = urlParams.get('id');
+    function getAllTache() {
 
         // console.log(myParam);
         // let id = 
+
+        fetch("/projet/getOneById/" + proje_id).then(resp=>resp.json())
+        .then(pr=>{
+            console.log(pr);
+            document.querySelector("#title-project").innerHTML = pr.name
+        })
+        
         fetch("/projet/getAllByProjectId/" + proje_id).then(res => res.json())
             .then(data => {
                 let htm_afaire = ""
@@ -170,7 +274,7 @@
 
                 for (let tache of data) {
                     if (tache.status == 1) {
-                        htm_afaire += `<div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                        htm_afaire += `<div class="card text-bg-light mb-1 text-left drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
                     <div class="card-header p-1 pt-0 pb-0">${tache.name}</div>
                     <div class="card-body p-1 pt-0 pb-0">
                         <p class="card-text">${tache.description}</p>
@@ -181,7 +285,7 @@
 
                     } else if (tache.status == 2) {
                         htm_encours += `
-                    <div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                    <div class="card text-bg-light mb-1 text-left drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
                         <div class="card-header p-1 pt-0 pb-0">${tache.name}</div>
                         <div class="card-body p-1 pt-0 pb-0">
                             <p class="card-text">${tache.description}</p>
@@ -189,7 +293,7 @@
                         </div>
                     </div>`
                     } else if (tache.status == 3) {
-                        htm_termine += `<div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                        htm_termine += `<div class="card text-bg-light mb-1 text-left drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
                     <div class="card-header p-1 pt-0 pb-0">${tache.name}</div>
                     <div class="card-body p-1 pt-0 pb-0">
                         <p class="card-text">${tache.description}</p>
@@ -198,7 +302,7 @@
                 </div>`
                     } else {
                         htm_bloque += `
-                <div class="card text-bg-light mb-3 drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                <div class="card text-bg-light mb-1 text-left drag-drop" data-id=${tache.id} ondblclick="openTache(${tache.id})">
                     <div class="card-header p-1 pt-0 pb-0">${tache.name}</div>
                     <div class="card-body p-1 pt-0 pb-0">
                         <p class="card-text">${tache.description}</p>
@@ -354,6 +458,26 @@
                 document.querySelector("#date").innerHTML =data.createdAt
                 // console.log(data);
             })
+        }
+
+        function openModalNewTache(){
+            $("#newTache").modal("show")
+
+            document.querySelector("#form-tache").setAttribute("action","/projet/tache/create/"+proje_id)
+
+            fetch("/equipe/get_all_project_manager").then(resp=>resp.json())
+            .then(data=>{
+                // console.log(data);
+                let option = ""
+                if(data.length > 0){
+                    for(let manager of data){
+                        option +=`<option value="${manager.id}">${manager.fullname}</option>`
+                    }
+                }
+
+                document.querySelector("#list_scroll_manager").innerHTML = option
+            })
+
         }
 
 

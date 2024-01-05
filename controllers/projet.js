@@ -10,13 +10,28 @@ const allProject = async (req, res) => {
     })
 }
 
+const getProjectById = async (req, res) => {
+    let id = req.params.id
+    Project.findOne({
+        where : {
+            id : id
+        }
+    }).then(result => {
+        res.send(result);
+    })
+}
+
 const saveProject = async (req, res) => {
+    // console.log(req.body);
     Project.create({
         name : req.body.name,
         description : req.body.description,
         icon  :req.body.icon,
         status : req.body.status,
+    }).then(result=>{
+        res.redirect(`/projet?id=${result.id}`);
     });
+
 }
 
 const updateProject = async (req, res, dataProject) => {
@@ -31,4 +46,5 @@ module.exports = {
     allProject,
     saveProject,
     updateProject,
+    getProjectById,
 };

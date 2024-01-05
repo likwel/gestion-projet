@@ -53,6 +53,26 @@ const getTacheById = async (req, res) => {
     })
 }
 
+const saveTache = async (req, res) => {
+    // console.log(req.body);
+    let id_projet = req.params.project_id
+
+    // res.redirect(`/projet?id=${id_projet}`);
+
+    Tache.create({
+        name : req.body.name,
+        description : req.body.description,
+        manager_id  : req.body.manager,
+        projet_id : id_projet,
+        user_id : req.body.user,
+        estimation : req.body.estimation,
+        status : req.body.status,
+    }).then(result=>{
+        res.redirect(`/projet?id=${id_projet}`);
+    });
+
+}
+
 // const saveProject = async (req, res) => {
 //     Project.create({
 //         name : req.body.name,
@@ -76,4 +96,5 @@ module.exports = {
     allTacheByStatus,
     updateTache,
     getTacheById,
+    saveTache,
 };

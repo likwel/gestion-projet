@@ -104,24 +104,20 @@ $(function() {
 		
    });	 
    
-function newProject(){
-	$("#newProject").modal("show")
-}
+// function saveProject(){
+// 	let data ={
+// 		name : document.querySelector("#pr-name").value,
+// 		description : document.querySelector("#pr-desc").value,
+// 		status : 1,
+// 		icon : "",
+// 	}
 
-function saveProject(){
-	let data ={
-		name : document.querySelector("#pr-name"),
-		description : document.querySelector("#pr-desc"),
-		status : 1,
-		icon : "",
-	}
-
-	fetch('/projet/save', {
-		method: 'POST',
-		headers: {
-		    'Accept': 'application/json',
-		    'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(data)
-	});
-}
+// 	fetch('/projet/create', {
+// 		method: 'POST',
+// 		headers: {
+// 		    'Accept': 'application/json',
+// 		    'Content-Type': 'application/json'
+// 		},
+// 		body: JSON.stringify(data)
+// 	});
+// }
