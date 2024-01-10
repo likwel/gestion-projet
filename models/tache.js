@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const db = require('../connexion');
+const User = require('../models/equipe');
 
 const Tache = db.define('tache', {
 
@@ -36,6 +37,9 @@ const Tache = db.define('tache', {
         allowNull: true
     },
 });
+
+User.hasMany(Tache, {foreignKey: 'user_id'})
+Tache.belongsTo(User, {foreignKey: 'user_id'})
 
 Tache.sync().then(() => {
   console.log('table tache created');

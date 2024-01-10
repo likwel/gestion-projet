@@ -768,6 +768,7 @@ body.bg-theme15 {
 
 .product-img {
     height: 32px;
+    clip-path: circle()
 }
 
 .skill-img {

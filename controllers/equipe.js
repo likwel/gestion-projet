@@ -123,6 +123,16 @@ const allUser = async (req, res) => {
     })
 }
 
+const getUserById = async (req, res) => {
+    User.findOne({
+        where : {
+            id : req.params.id
+        }
+    }).then(result => {
+        res.send(result);
+    })
+}
+
 const getAllManager = async (req, res) => {
     User.findAll({
         where : {
@@ -138,4 +148,5 @@ module.exports = {
     login,
     allUser,
     getAllManager,
+    getUserById,
 };

@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 const equipeRoutes = require ('./Routes/equipe')
 const projetRoutes = require ('./Routes/projet')
 const tacheRoutes = require ('./Routes/tache')
+const agendaRoutes = require ('./Routes/agenda')
 
 const { Sequelize, QueryTypes } = require('sequelize');
 const sequelize = require('sequelize');
@@ -34,6 +35,7 @@ const server = http.createServer(app);
 app.use('/equipe', equipeRoutes)
 app.use('/projet', projetRoutes)
 app.use('/projet', tacheRoutes)
+app.use('/agenda', agendaRoutes)
 
 app.get('/', (req, res) => {
     res.render('index')

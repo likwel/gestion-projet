@@ -2,136 +2,208 @@
 <html lang="en">
 
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<style>
+    .active{
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.15);
+        border-left-color: #ffffff;
+    }
+</style>
 
 <%- include('head'); %>
 
-<body class="bg-theme bg-theme1">
+    <body class="bg-theme bg-theme11">
 
-    <!-- Start wrapper-->
-    <div id="wrapper">
+        <!-- Start wrapper-->
+        <div id="wrapper">
 
-        <!--Start sidebar-wrapper-->
-        <%- include('sidebar'); %>
-            <!--End sidebar-wrapper-->
+            <!--Start sidebar-wrapper-->
+            <%- include('sidebar'); %>
+                <!--End sidebar-wrapper-->
 
-            <!--Start topbar header-->
-            <%- include('header'); %>
-                <!--End topbar header-->
+                <!--Start topbar header-->
+                <%- include('header'); %>
+                    <!--End topbar header-->
 
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
-                <div class="content-wrapper">
-                    <div class="container-fluid">
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
 
-                        <!--Start Dashboard Content-->
+                            <!--Start Dashboard Content-->
 
-                        <div class="row">
-                            
-                            <div class="col-12 col-lg-12">
+                            <div class="row">
 
-                                <a href="/equipe/create" class="btn btn-light px-5 my-3"><i class="zmdi zmdi-account-add"></i> Ajouter un équipe</a>
+                                <div class="col-12 col-lg-12">
 
-                                <div class="card">
-                                    <div class="card-header">Liste des equipes par fonction
-                                        <div class="card-action">
-                                            <div class="dropdown">
-                                                <a href="javascript:void();"
-                                                    class="dropdown-toggle dropdown-toggle-nocaret"
-                                                    data-toggle="dropdown">
-                                                    <i class="icon-options"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="javascript:void();">Action</a>
-                                                    <a class="dropdown-item" href="javascript:void();">Another
-                                                        action</a>
-                                                    <a class="dropdown-item" href="javascript:void();">Something else
-                                                        here</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void();">Separated
-                                                        link</a>
+                                    <a href="/equipe/create" class="btn btn-light px-5 my-3"><i
+                                            class="zmdi zmdi-account-add"></i> Ajouter un équipe</a>
+
+                                    <div class="card">
+                                        <div class="card-header">Liste des equipes par fonction
+                                            <div class="card-action">
+                                                <div class="dropdown">
+                                                    <a href="javascript:void();"
+                                                        class="dropdown-toggle dropdown-toggle-nocaret"
+                                                        data-toggle="dropdown">
+                                                        <i class="icon-options"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="javascript:void();">Action</a>
+                                                        <a class="dropdown-item" href="javascript:void();">Another
+                                                            action</a>
+                                                        <a class="dropdown-item" href="javascript:void();">Something
+                                                            else
+                                                            here</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void();">Separated
+                                                            link</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table align-items-center table-flush table-borderless">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nom d'equipe</th>
-                                                    <th>Fonction</th>
-                                                    <!-- <th>Salaire</th> -->
-                                                    <th>Date d'entrée</th>
-                                                    <th>Expérience</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="list-users">
-                                                
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table align-items-center table-flush table-borderless">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nom d'equipe</th>
+                                                        <th>Fonction</th>
+                                                        <!-- <th>Salaire</th> -->
+                                                        <th>Date d'entrée</th>
+                                                        <th>Expériences</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="list-users">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!--End Row-->
+
+                            <!--End Dashboard Content-->
+
+                            <!--start overlay-->
+                            <div class="overlay toggle-menu"></div>
+                            <!--end overlay-->
+
                         </div>
-                        <!--End Row-->
+                        <!-- End container-fluid-->
 
-                        <!--End Dashboard Content-->
+                    </div><!--End content-wrapper-->
+                    <!--Start Back To Top Button-->
+                    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                    <!--End Back To Top Button-->
 
-                        <!--start overlay-->
-                        <div class="overlay toggle-menu"></div>
-                        <!--end overlay-->
+                    <!--Start footer-->
+                    <%- include('footer'); %>
+                        <!--End footer-->
 
-                    </div>
-                    <!-- End container-fluid-->
+                        <!--start color switcher-->
+                        <%- include('parametre'); %>
+                            <!--end color switcher-->
 
-                </div><!--End content-wrapper-->
-                <!--Start Back To Top Button-->
-                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-                <!--End Back To Top Button-->
+        </div><!--End wrapper-->
 
-                <!--Start footer-->
-                <%- include('footer'); %>
-                    <!--End footer-->
+        <!-- Bootstrap core JavaScript-->
 
-                    <!--start color switcher-->
-                    <%- include('parametre'); %>
-                        <!--end color switcher-->
-
-    </div><!--End wrapper-->
-
-    <!-- Bootstrap core JavaScript-->
-
-    <%- include('script'); %>
+        <%- include('script'); %>
 
 
-</body>
+    </body>
+
 </html>
 
 <script>
-    fetch("/equipe/get_all_equipe").then(res=>res.json()).then(res=>{
+
+    document.querySelector(".user__").classList.add("active")
+
+    fetch("/equipe/get_all_equipe").then(res => res.json()).then(res => {
         console.log(res);
 
-        let htm ="";
+        let htm = "";
 
-        for(let user of res){
-            htm+=`<tr>
+        for (let user of res) {
+
+            let img = user.photo ? user.photo : "https://via.placeholder.com/110x110"
+
+            var dob = new Date(user.createdAt);
+            // var date2 = new Date();
+            // différence des heures
+            var dobYear = dob.getYear();
+            var dobMonth = dob.getMonth();
+            var dobDate = dob.getDate();
+
+            //get the current date from the system
+            var now = new Date();
+            //extract the year, month, and date from current date
+            var currentYear = now.getYear();
+            var currentMonth = now.getMonth();
+            var currentDate = now.getDate();
+
+            //declare a variable to collect the age in year, month, and days
+            var age = {};
+            var ageString = "";
+
+            //get years
+            yearAge = currentYear - dobYear;
+
+            let p = yearAge * 10;
+
+            //get months
+            if (currentMonth >= dobMonth)
+                //get months when current month is greater
+                var monthAge = currentMonth - dobMonth;
+            else {
+                yearAge--;
+                var monthAge = 12 + currentMonth - dobMonth;
+            }
+
+            //get days
+            if (currentDate >= dobDate)
+                //get days when the current date is greater
+                var dateAge = currentDate - dobDate;
+            else {
+                monthAge--;
+                var dateAge = 31 + currentDate - dobDate;
+
+                if (monthAge < 0) {
+                    monthAge = 11;
+                    yearAge--;
+                }
+            }
+            //group the age in a single variable
+            age = {
+                years: yearAge,
+                months: monthAge,
+                days: dateAge,
+                percentage: p
+            };
+
+            console.log(age);
+
+            htm += `<tr>
                     <td>${user.id}</td>
-                    <td><img src="https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcQN9xj4vlx7c7VZSnGBKoEFOF6WuiYqcu9cTn7156lf4WKlRxnMANYFNTMQF2iNA-pi"
+                    <td><img src="${img}"
                             class="product-img" alt="product img">
                             ${user.fullname}
                     </td>
                     <td>${user.roles}</td>
                     <!--<td>${user.salary} Ar</td>-->
-                    <td>${user.createdAt}</td>
+                    <td>${user.createdAt.split("T")[0]}</td>
                     <td>
+                        <span>${age.years} an(s) ${age.months} mois ${age.days} jour(s)</span>
                         <div class="progress shadow" style="height: 3px;">
                             <div class="progress-bar" role="progressbar"
-                                style="width: 90%"></div>
+                                style="width: ${age.percentage}%"></div>
                         </div>
                     </td>
                 </tr>`
         }
 
-        document.querySelector("#list-users").innerHTML =htm
+        document.querySelector("#list-users").innerHTML = htm
     })
 </script>

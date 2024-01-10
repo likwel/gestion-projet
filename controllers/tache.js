@@ -3,6 +3,7 @@ const app = express();
 
 // Assigning users to the variable User
 const Tache = require('../models/tache');
+const User = require('../models/equipe');
 
 const allTache = async (req, res) => {
     Tache.findAll().then(result => {
@@ -15,6 +16,7 @@ const allTacheByIdProject = async (req, res) => {
     let id = req.params.projet_id
 
     Tache.findAll({
+        include: { model: User},
         where : {
             projet_id : id
         }
@@ -45,6 +47,7 @@ const updateTache = async (req, res) => {
 
 const getTacheById = async (req, res) => {
     Tache.findOne({
+        include: { model: User},
         where : {
             id : req.params.id
         }
