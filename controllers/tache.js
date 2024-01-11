@@ -45,6 +45,37 @@ const updateTache = async (req, res) => {
 
 }
 
+const startTache = async (req, res) => {
+
+    Tache.update({ startedAt: req.params.startedAt }, {
+        where: {
+            id : req.params.id_tache
+        }
+      });
+
+}
+
+const terminateTache = async (req, res) => {
+
+    Tache.update({ terminatedAt: req.params.terminatedAt }, {
+        where: {
+            id : req.params.id_tache
+        }
+      });
+
+}
+
+
+const deliveryTache = async (req, res) => {
+
+    Tache.update({ deliveredAt: req.params.deliveredAt }, {
+        where: {
+            id : req.params.id_tache
+        }
+      });
+
+}
+
 const getTacheById = async (req, res) => {
     Tache.findOne({
         include: { model: User},
@@ -69,29 +100,13 @@ const saveTache = async (req, res) => {
         projet_id : id_projet,
         user_id : req.body.user,
         estimation : req.body.estimation,
+        priorite : req.body.priorite,
         status : req.body.status,
     }).then(result=>{
         res.redirect(`/projet?id=${id_projet}`);
     });
 
 }
-
-// const saveProject = async (req, res) => {
-//     Project.create({
-//         name : req.body.name,
-//         description : req.body.description,
-//         icon  :req.body.icon,
-//         status : req.body.status,
-//     });
-// }
-
-// const updateProject = async (req, res, dataProject) => {
-//     Project.update(dataProject);
-// }
-
-// const deleteProject = async (req, res, dataProject) => {
-//     Project.delete(dataProject);
-// }
 
 module.exports = {
     allTache,
@@ -100,4 +115,7 @@ module.exports = {
     updateTache,
     getTacheById,
     saveTache,
+    startTache,
+    terminateTache,
+    deliveryTache,
 };

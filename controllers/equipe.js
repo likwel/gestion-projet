@@ -136,7 +136,7 @@ const getUserById = async (req, res) => {
 const getAllManager = async (req, res) => {
     User.findAll({
         where : {
-            roles : "Chef de projet"
+            roles : "SM"
         }
     }).then(result => {
         res.send(result);

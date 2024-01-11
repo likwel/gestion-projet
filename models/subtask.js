@@ -2,8 +2,9 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const db = require('../connexion');
 const User = require('../models/equipe');
+const Task = require('../models/tache');
 
-const Tache = db.define('tache', {
+const Subtask = db.define('subtask', {
 
     name: {
         type: DataTypes.STRING,
@@ -28,6 +29,10 @@ const Tache = db.define('tache', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    task_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
     estimation: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -37,6 +42,10 @@ const Tache = db.define('tache', {
         allowNull: true
     },
     priorite : {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    task_level: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
@@ -55,10 +64,13 @@ const Tache = db.define('tache', {
     
 });
 
-User.hasMany(Tache, {foreignKey: 'user_id'})
-Tache.belongsTo(User, {foreignKey: 'user_id'})
+User.hasMany(Subtask, {foreignKey: 'user_id'})
+Subtask.belongsTo(User, {foreignKey: 'user_id'})
 
-Tache.sync().then(() => {
-  console.log('table tache created');
+Task.hasMany(Subtask, {foreignKey: 'task_id'})
+Subtask.belongsTo(Task, {foreignKey: 'task_id'})
+
+Subtask.sync().then(() => {
+  console.log('table sous-tache created');
 });
-module.exports = Tache;
+module.exports = Subtask;

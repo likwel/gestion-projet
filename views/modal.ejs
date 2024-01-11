@@ -109,9 +109,107 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Niveau de priorité</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="number" name="priorite" id="pr-estimation" min="1" max="10" class="form-control input-shadow" value="10">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="exampleInputEmailId" class="sr-onlye">Jour d'estimation (en J)</label>
                         <div class="position-relative has-icon-right">
-                            <input type="number" name="estimation" id="pr-estimation" class="form-control input-shadow" value="1">
+                            <input type="number" name="estimation" id="pr-estimation" min="1" class="form-control input-shadow" value="1">
+
+                        </div>
+                    </div>
+                    <!-- <input type="number" name="estimation" value="1"> -->
+                    <!-- <input type="hidden" name="icon" value=""> -->
+                    <input type="hidden" name="user" value="1">
+                    <input type="hidden" name="status" value="1">
+                    <div class="modal-footer p-1">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <!-- <button type="submit" class="btn btn-primary" onclick="saveProject()"><i class="zmdi zmdi-cloud-done"></i> Enregistrer</button> -->
+                        <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-cloud-done"></i>
+                            Enregistrer</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newSubTask" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Créer une vouvelle sous-tâche</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-dark">
+                <form id="form-soustache" action="/projet/subtask/create" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputName" class="sr-onlye">Nom</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="exampleInputName" class="form-control input-shadow"
+                                placeholder="Enter le nom de la tâche" id="pr-name" name="name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Description</label>
+                        <div class="position-relative has-icon-right">
+                            <textarea id="exampleInputEmailId" class="form-control input-shadow"
+                                placeholder="Enter la description" id="pr-desc" name="description"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Chef de projet</label>
+                        <div class="position-relative has-icon-right">
+                            <select class="form-control input-shadow" name="manager" id="list_scroll_manager_subtask">
+                                
+                            </select>
+                            <!-- <input type="text" id="exampleInputEmailId" class="form-control input-shadow"
+                                placeholder="Enter chef de projet" id="pr-manager" name="description"></input> -->
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Tâche parent</label>
+                        <div class="position-relative has-icon-right">
+                            <select class="form-control input-shadow" name="task" id="list_scroll_task">
+                                
+                            </select>
+                            <!-- <input type="text" id="exampleInputEmailId" class="form-control input-shadow"
+                                placeholder="Enter chef de projet" id="pr-manager" name="description"></input> -->
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Niveau de tâche</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="number" name="level" id="pr-estimation" min="1" max="10" class="form-control input-shadow" value="10">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Niveau de priorité</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="number" name="priorite" id="pr-estimation" min="1" max="10" class="form-control input-shadow" value="10">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmailId" class="sr-onlye">Jour d'estimation (en J)</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="number" name="estimation" id="pr-estimation" min="1" class="form-control input-shadow" value="1">
 
                         </div>
                     </div>

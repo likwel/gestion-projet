@@ -6,7 +6,7 @@
     .active{
         color: #ffffff;
         background: rgba(255, 255, 255, 0.15);
-        border-left-color: #ffffff;
+        border-left-color: 2px solid #ffffff;
     }
 </style>
 
@@ -119,7 +119,8 @@
 
 <script>
 
-    document.querySelector(".user__").classList.add("active")
+    // document.querySelector(".user__").classList.add("active")
+    document.querySelector(".user__").parentElement.classList.add("active")
 
     fetch("/equipe/get_all_equipe").then(res => res.json()).then(res => {
         console.log(res);

@@ -27,7 +27,7 @@
 
 .drag-drop {
     position: relative;
-    z-index: 999;
+    z-index: 1;
     color: #fff;
     /* background-color: #29e; */
     background-color: transparent;
@@ -37,7 +37,9 @@
     transform: translate(0px, 0px);
 
     transition: background-color 0.3s;
-    cursor:default
+    cursor:default;
+    opacity: 1;
+    
     /* overflow: hidden; */
 }
 
@@ -190,7 +192,7 @@ width: 500px !important; */
     clip-path: circle();
     cursor: pointer;
 }
-.zmdi-border-color{
+.zmdi-border-color, .cursor-pointer{
     cursor: pointer;
 }
 
@@ -198,13 +200,15 @@ width: 500px !important; */
     display: block; 
 }
 .profil-dropdown{
-    z-index: 999;
+    position: absolute;
+    z-index: 1000;
     background-color: #fff;
     color: #000;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card-profil-over{
+    z-index: 1000;
 	background-color: #fff;
 	width: 100%;
 	/* border-radius: 33px; */
@@ -280,7 +284,7 @@ width: 500px !important; */
 }
 
 .recent-border{
-	border-left: 2px solid #5957f9;
+	border: 2px solid #5957f9;
 	display: flex;
 	align-items: center;
 
@@ -312,4 +316,14 @@ width: 500px !important; */
 }
 .fashion-studio-border:hover {
 	border-bottom: 1px solid #dee2e6!important;
+}
+.dropdown .card-text{
+    z-index: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+.zIndex-1{
+    z-index: 0 !important;
 }

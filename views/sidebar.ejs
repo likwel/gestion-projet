@@ -70,7 +70,16 @@
     </ul>
 
 </div>
+
+<%- include('modal'); %>
+
 <script>
+
+    const Params = new URLSearchParams(window.location.search);
+    const project_id = Params.get('id');
+
+    // console.log(project_id);
+
 
     function newProject(){
         $("#newProject").modal("show")
@@ -80,9 +89,13 @@
     .then(data=>{
         let htm = ""
         for(let projet of data){
-            htm+=`<li><a href="/projet?id=${projet.id}"><i class="zmdi zmdi-coffee text-danger"></i> <span>${projet.name}</span></a></li>`
+            htm+=`<li class="project-${projet.id}"><a href="/projet?id=${projet.id}"><i class="zmdi zmdi-coffee text-danger"></i> <span>${projet.name}</span></a></li>`
         }
         document.querySelector("#liste-projet-side").innerHTML += htm;
+        if(project_id){
+            document.querySelector(".project-"+project_id).classList.add('active');
+            document.querySelector(".project-"+project_id).scrollIntoView(false);
+        }
         // liste-projet-side
         // console.log(data);
     })
