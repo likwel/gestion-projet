@@ -38,8 +38,6 @@
                                 <div>
                                     <button class="btn ml-2 btn-sm btn-outline-primary border-white text-white btn-new-task" onclick="openModalNewTache()"><i
                                         class="zmdi zmdi-plus-1"></i> Créer une tâche</button>
-                                    <button class="btn ml-2 btn-sm btn-outline-primary border-white text-white btn-new-subtask" onclick="openModalNewSubTask()"><i
-                                            class="zmdi zmdi-plus-1"></i> Créer une sous-tâche</button>
                                     <button class="btn btn-sm btn-outline-info"><span class="zmdi zmdi-swap-vertical"></span> Filtrer</button>
                                     
                                 </div>
@@ -122,27 +120,16 @@
     const proje_id = urlParams.get('id');
     const task_id = urlParams.get('task_id');
 
-    function getAllTache() {
+    function getAllTask() {
 
         // console.log(task_id);
 
         let request = ""
         let request_tache = ""
-        
-        if(task_id){
-            request = "/projet/getAllSubTaskByTacheId/" +task_id
-            request_tache = "/projet/tache/getById/"+task_id
-            document.querySelector(".btn-new-task").classList.add("d-none")
-            document.querySelector(".btn-new-subtask").classList.remove("d-none")
-        }else{
-            request = "/projet/getAllByProjectId/" +proje_id
-            request_tache = "/projet/getOneById/" + proje_id
-            document.querySelector(".btn-new-task").classList.remove("d-none")
-            document.querySelector(".btn-new-subtask").classList.add("d-none")
-        }
 
+        request = "/project/getAllByProjectId/" +proje_id
+        request_tache = "/project/getOneById/" + proje_id
         
-
         fetch(request_tache).then(resp => resp.json())
             .then(pr => {
                 console.log(pr);
@@ -214,14 +201,14 @@
                     
                     if (tache.status == 1) {
                         htm_afaire += `
-                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/project/task/getById/')">
                                 <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
                                     <label class="text-truncate mb-0">${tache.name}</label> 
                                     <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
                                     <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
-                                        <a href="/projet?id=${proje_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <a href="/project/task?id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
                                         <li class="dropdown-divider"></li>
-                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="startTache(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Etre en cours</li>
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="startTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Etre en cours</li>
                                         
                                     </div>
                                 </div>
@@ -232,7 +219,7 @@
                                         <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé en ${tache.estimation}j</i>
                                         <!--<i class="zmdi zmdi-timer-off zmtime-fs-10 ${daty_class}"> ${tache.expiration}</i>-->
                                     </div>
-                                    <!--<a href="/projet?id=${proje_id}&task_id=${tache.id}"><i class="zmdi zmdi-border-color mr-2 mt-2"></i></a>-->
+                                    <!--<a href="/project/task?id=${tache.id}"><i class="zmdi zmdi-border-color mr-2 mt-2"></i></a>-->
                                     <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
                                 </div>
                             </div>`
@@ -240,14 +227,14 @@
 
                     } else if (tache.status == 2) {
                         htm_encours += `
-                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/project/task/getById/')">
                                 <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
                                     <label class="text-truncate mb-0">${tache.name}</label> 
                                     <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
                                     <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
-                                        <a href="/projet?id=${proje_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <a href="/project/task?id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
                                         <li class="dropdown-divider"></li>
-                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="terminateTache(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Terminer</li>
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="terminateTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Terminer</li>
                                         
                                     </div>
                                 </div>
@@ -258,19 +245,23 @@
                                         <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> ${tache.estimation}j</i>
                                         <i class="zmdi zmdi-timer-off zmtime-fs-10 badge ${daty_class}"> ${tache.expiration}</i>
                                     </div>
-                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                    <div class="d-flex flex-column">
+                                        <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                        <span class="badge badge-info mt-1">${tache.subtasks.length}</span>
+                                    </div>
+                                    
                                 </div>
                             </div>`
                     } else if (tache.status == 3) {
                         htm_termine += `
-                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/project/task/getById/')">
                                 <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
                                     <label class="text-truncate mb-0">${tache.name}</label> 
                                     <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
                                     <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
-                                        <a href="/projet?id=${proje_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <a href="/project/task?id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
                                         <li class="dropdown-divider"></li>
-                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="deliveryTache(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Livrer</li>
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="deliveryTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Livrer</li>
                                         
                                     </div>
                                 </div>
@@ -286,14 +277,14 @@
                             </div>`
                     } else {
                         htm_bloque += `
-                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTache(${tache.id})">
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/project/task/getById/')">
                                 <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
                                     <label class="text-truncate mb-0">${tache.name}</label> 
                                     <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
                                     <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
-                                        <a href="/projet?id=${proje_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <a href="/project/task?id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
                                         <li class="dropdown-divider"></li>
-                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="archiveTache(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Archiver</li>
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="archiveTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Archiver</li>
                                         
                                     </div>
                                 </div>
@@ -324,56 +315,36 @@
 
     }
 
-    function updateCard(id_tache, status) {
-        fetch('/projet/update/' + id_tache + '/' + status, {
-            method: 'POST',
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json'
-            // },
-            // body: JSON.stringify({ a: 1, b: 'Textual content' })
-        });
-    }
-
-    function startTache(id_tache) {
-        updateCard(id_tache, 2)
-        fetch('/projet/start/' + id_tache + '/' + new Date(), {
+    function startTask(id_tache) {
+        updateTask(id_tache, 2)
+        fetch('/project/start/' + id_tache + '/' + new Date(), {
             method: 'POST'
         });
-        getAllTache()
+        getAllTask()
     }
 
-    function terminateTache(id_tache) {
-        updateCard(id_tache, 3)
-        fetch('/projet/terminate/' + id_tache + '/' + new Date(), {
+    function terminateTask(id_tache) {
+        updateTask(id_tache, 3)
+        fetch('/project/terminate/' + id_tache + '/' + new Date(), {
             method: 'POST'
         });
-        getAllTache()
+        getAllTask()
     }
 
-    function deliveryTache(id_tache) {
-        updateCard(id_tache, 4)
-        fetch('/projet/delivery/' + id_tache + '/' + new Date(), {
+    function deliveryTask(id_tache) {
+        updateTask(id_tache, 4)
+        fetch('/project/delivery/' + id_tache + '/' + new Date(), {
             method: 'POST'
         });
-        getAllTache()
+        getAllTask()
     }
 
-    function dragMoveListener(event) {
-        var target = event.target
-        // keep the dragged position in the data-x/data-y attributes
-        var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-        var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-        // translate the element
-        target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-
-        // update the posiion attributes
-        target.setAttribute('data-x', x)
-        target.setAttribute('data-y', y)
+    function archiveTask(id_tache) {
+        updateTask(id_tache, 5)
+        getAllTask()
     }
 
-    getAllTache()
+    getAllTask()
 
     /* The dragging code for '.draggable' from the demo above
     * applies to this demo as well so it doesn't have to be repeated. */
@@ -428,26 +399,26 @@
 
             // if (status == "afaire" && (current_status != "encours" || current_status != "termine" || current_status != "livre")) {
             //     status_nbr = 1;
-            //     updateCard(id_tache, status_nbr)
+            //     updateTask(id_tache, status_nbr)
             // } else 
             if (status == "encours" && current_status == "afaire") {
                 status_nbr = 2;
-                startTache(id_tache)
-                // updateCard(id_tache, status_nbr)
+                startTask(id_tache)
+                // updateTask(id_tache, status_nbr)
             } else if (status == "termine" && current_status == "encours") {
                 status_nbr = 3;
-                terminateTache(id_tache)
-                // updateCard(id_tache, status_nbr)
+                terminateTask(id_tache)
+                // updateTask(id_tache, status_nbr)
             } else if (status == "livre" && current_status == "termine") {
                 status_nbr = 4;
-                deliveryTache(id_tache)
-                // updateCard(id_tache, status_nbr)
+                deliveryTask(id_tache)
+                // updateTask(id_tache, status_nbr)
             } else {
                 status_nbr = 1;
-                getAllTache()
+                getAllTask()
             }
 
-            // updateCard(id_tache, status_nbr)
+            // updateTask(id_tache, status_nbr)
 
             // console.log(event.relatedTarget.parentElement.id);
 
@@ -456,7 +427,7 @@
             // }
 
 
-            // getAllTache()
+            // getAllTask()
 
 
         },
@@ -483,83 +454,12 @@
             listeners: { move: dragMoveListener }
         })
 
-    function openTache(id) {
-        $("#modalDetailTache").modal("show")
-        fetch("/projet/tache/getById/" + id).then(resp => resp.json())
-            .then(data => {
-                // console.log(data);
-                document.querySelector("#titre").innerHTML = data.name
-                document.querySelector("#desc").innerHTML = data.description
-                document.querySelector("#date").innerHTML = "Date de création : " +data.createdAt
-                document.querySelector("#estimation").innerHTML = "Estimation : " +data.estimation +" jour"
-                let prof = `
-                <img src="${data.user.photo}"/> ${data.user.fullname} ${data.user.roles} 
-                `
-                document.querySelector("#contributor").innerHTML = "Contributeur : " +prof
-                
-                // console.log(data);
-            })
-    }
-
-    function openModalNewTache() {
-        $("#newTache").modal("show")
-
-        document.querySelector("#form-tache").setAttribute("action", "/projet/tache/create/" + proje_id)
-
-        fetch("/equipe/get_all_project_manager").then(resp => resp.json())
-            .then(data => {
-                // console.log(data);
-                let option = ""
-                if (data.length > 0) {
-                    for (let manager of data) {
-                        option += `<option value="${manager.id}">${manager.fullname}</option>`
-                    }
-                }
-
-                document.querySelector("#list_scroll_manager").innerHTML = option
-            })
-
-    }
-
-    function openModalNewSubTask() {
-        $("#newSubTask").modal("show")
-
-        document.querySelector("#form-soustache").setAttribute("action", "/projet/subtask/create/" + proje_id+"/"+task_id)
-
-        fetch("/equipe/get_all_project_manager").then(resp => resp.json())
-            .then(data => {
-                // console.log(data);
-                let option = ""
-                if (data.length > 0) {
-                    for (let manager of data) {
-                        option += `<option value="${manager.id}">${manager.fullname}</option>`
-                    }
-                }
-
-                document.querySelector("#list_scroll_manager_subtask").innerHTML = option
-            })
-
-        fetch("/projet/getAllTache").then(resp => resp.json())
-            .then(data => {
-                // console.log(data);
-                let option = ""
-                if (data.length > 0) {
-                    for (let task of data) {
-                        option += `<option value="${task.id}">${task.name}</option>`
-                    }
-                }
-
-                document.querySelector("#list_scroll_task").innerHTML = option
-            })
-
-    }
-
     function getUser(param, user_id){
 
         param.parentElement.querySelector(".profil-dropdown").style.display = "block"
         param.parentElement.querySelector(".profil-dropdown").style.zIndex = "9999"
 
-        fetch("/equipe/getUserById/"+user_id).then(resp=>resp.json())
+        fetch("/user/getUserById/"+user_id).then(resp=>resp.json())
             .then(data => {
                 // console.log(data);
 

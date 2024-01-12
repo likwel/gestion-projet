@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 
 // Assigning users to the variable User
-const Tache = require('../models/tache');
-const User = require('../models/equipe');
+const Task = require('../models/task');
+const User = require('../models/user');
+const Subtask = require('../models/subtask');
 
 const allTache = async (req, res) => {
-    Tache.findAll().then(result => {
+    Task.findAll().then(result => {
         res.send(result);
     })
 }
@@ -15,8 +16,8 @@ const allTacheByIdProject = async (req, res) => {
 
     let id = req.params.projet_id
 
-    Tache.findAll({
-        include: { model: User},
+    Task.findAll({
+        include: [{ model: User},{ model: Subtask}],
         where : {
             projet_id : id
         }
@@ -26,7 +27,7 @@ const allTacheByIdProject = async (req, res) => {
 }
 
 const allTacheByStatus = async (req, res) => {
-    Tache.findAll({
+    Task.findAll({
         where : {
             status : req.params.status
         }
@@ -37,7 +38,7 @@ const allTacheByStatus = async (req, res) => {
 
 const updateTache = async (req, res) => {
 
-    Tache.update({ status: req.params.status }, {
+    Task.update({ status: req.params.status }, {
         where: {
             id : req.params.id_tache
         }
@@ -47,7 +48,7 @@ const updateTache = async (req, res) => {
 
 const startTache = async (req, res) => {
 
-    Tache.update({ startedAt: req.params.startedAt }, {
+    Task.update({ startedAt: req.params.startedAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -57,7 +58,7 @@ const startTache = async (req, res) => {
 
 const terminateTache = async (req, res) => {
 
-    Tache.update({ terminatedAt: req.params.terminatedAt }, {
+    Task.update({ terminatedAt: req.params.terminatedAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -68,7 +69,7 @@ const terminateTache = async (req, res) => {
 
 const deliveryTache = async (req, res) => {
 
-    Tache.update({ deliveredAt: req.params.deliveredAt }, {
+    Task.update({ deliveredAt: req.params.deliveredAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -77,13 +78,17 @@ const deliveryTache = async (req, res) => {
 }
 
 const getTacheById = async (req, res) => {
-    Tache.findOne({
+    Task.findOne({
         include: { model: User},
         where : {
             id : req.params.id
         }
     }).then(result => {
-        res.send(result);
+        if(result){
+            res.send(result);
+        }else{
+            res.send(false)
+        }
     })
 }
 
@@ -93,7 +98,7 @@ const saveTache = async (req, res) => {
 
     // res.redirect(`/projet?id=${id_projet}`);
 
-    Tache.create({
+    Task.create({
         name : req.body.name,
         description : req.body.description,
         manager_id  : req.body.manager,
@@ -103,7 +108,7 @@ const saveTache = async (req, res) => {
         priorite : req.body.priorite,
         status : req.body.status,
     }).then(result=>{
-        res.redirect(`/projet?id=${id_projet}`);
+        res.redirect(`/project?id=${id_projet}`);
     });
 
 }

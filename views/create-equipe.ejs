@@ -30,7 +30,7 @@
                                     <div class="card-body">
                                         <div class="card-title">Création d'un utilisateur</div>
                                         <hr>
-                                        <form action="/equipe/signup" method="post">
+                                        <form action="/user/signup" method="post">
                                             <div class="form-group">
                                                 <label for="input-1">Nom complet</label>
                                                 <input type="text" class="form-control" id="input-0"
@@ -115,7 +115,7 @@
 
         }
 
-        fetch("/equipe/signup",{
+        fetch("/user/signup",{
             method : "POST",
             headers :{
             "Content-Type": "application/json",

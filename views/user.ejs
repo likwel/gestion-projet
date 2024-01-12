@@ -36,7 +36,7 @@
 
                                 <div class="col-12 col-lg-12">
 
-                                    <a href="/equipe/create" class="btn btn-light px-5 my-3"><i
+                                    <a href="/user/create" class="btn btn-light px-5 my-3"><i
                                             class="zmdi zmdi-account-add"></i> Ajouter un équipe</a>
 
                                     <div class="card">
@@ -122,7 +122,7 @@
     // document.querySelector(".user__").classList.add("active")
     document.querySelector(".user__").parentElement.classList.add("active")
 
-    fetch("/equipe/get_all_equipe").then(res => res.json()).then(res => {
+    fetch("/user/get_all_equipe").then(res => res.json()).then(res => {
         console.log(res);
 
         let htm = "";

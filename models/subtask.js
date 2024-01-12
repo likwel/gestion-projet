@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const db = require('../connexion');
-const User = require('../models/equipe');
-const Task = require('../models/tache');
+const User = require('./user');
+const Task = require('./task');
 
 const Subtask = db.define('subtask', {
 
@@ -45,10 +45,6 @@ const Subtask = db.define('subtask', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    task_level: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
     startedAt : {
         type: DataTypes.DATE,
         allowNull: true,
@@ -67,8 +63,8 @@ const Subtask = db.define('subtask', {
 User.hasMany(Subtask, {foreignKey: 'user_id'})
 Subtask.belongsTo(User, {foreignKey: 'user_id'})
 
-Task.hasMany(Subtask, {foreignKey: 'task_id'})
-Subtask.belongsTo(Task, {foreignKey: 'task_id'})
+// Task.hasMany(Subtask, {foreignKey: 'task_id'})
+// Subtask.belongsTo(Task, {foreignKey: 'task_id'})
 
 Subtask.sync().then(() => {
   console.log('table sous-tache created');

@@ -1,8 +1,8 @@
 <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
-        <a href="index-2.html">
+        <a href="/">
             <img src="/assets/images/gestion-de-projet.png" class="logo-icon" alt="logo icon">
-            <h5 class="logo-text">Projet Tsaratatana</h5>
+            <h5 class="logo-text">GP-AGILE SCRUM</h5>
         </a>
     </div>
     <ul class="sidebar-menu do-nicescrol">
@@ -26,7 +26,7 @@
         </li> -->
 
         <li>
-            <a href="/equipe/liste" class="user__">
+            <a href="/user" class="user__">
                 <i class="zmdi zmdi-grid"></i> <span>Equipes</span>
             </a>
         </li>
@@ -85,18 +85,21 @@
         $("#newProject").modal("show")
     }
 
-    fetch("/projet/getAll").then(resp=>resp.json())
+    fetch("/project/getAll").then(resp=>resp.json())
     .then(data=>{
         let htm = ""
-        for(let projet of data){
-            htm+=`<li class="project-${projet.id}"><a href="/projet?id=${projet.id}"><i class="zmdi zmdi-coffee text-danger"></i> <span>${projet.name}</span></a></li>`
+        if(data.length > 0){
+            for(let projet of data){
+                htm+=`<li class="project-${projet.id}"><a href="/project?id=${projet.id}"><i class="zmdi zmdi-coffee text-danger"></i> <span>${projet.name}</span></a></li>`
+            }
+            document.querySelector("#liste-projet-side").innerHTML += htm;
+            if(project_id){
+                if(document.querySelector(".project-"+project_id)){
+                    document.querySelector(".project-"+project_id).classList.add('active');
+                    document.querySelector(".project-"+project_id).scrollIntoView(false);
+                }
+            }
         }
-        document.querySelector("#liste-projet-side").innerHTML += htm;
-        if(project_id){
-            document.querySelector(".project-"+project_id).classList.add('active');
-            document.querySelector(".project-"+project_id).scrollIntoView(false);
-        }
-        // liste-projet-side
-        // console.log(data);
+        
     })
 </script>

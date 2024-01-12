@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const db = require('../connexion');
 
-const Project = db.define('projet', {
+const Project = db.define('project', {
 
     name: {
         type: DataTypes.STRING,

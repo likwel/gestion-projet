@@ -1,9 +1,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const db = require('../connexion');
-const User = require('../models/equipe');
+const User = require('./user');
+const SubTask = require('./subtask');
 
-const Tache = db.define('tache', {
+const Task = db.define('task', {
 
     name: {
         type: DataTypes.STRING,
@@ -55,10 +56,13 @@ const Tache = db.define('tache', {
     
 });
 
-User.hasMany(Tache, {foreignKey: 'user_id'})
-Tache.belongsTo(User, {foreignKey: 'user_id'})
+User.hasMany(Task, {foreignKey: 'user_id'})
+Task.belongsTo(User, {foreignKey: 'user_id'})
 
-Tache.sync().then(() => {
+Task.hasMany(SubTask, {foreignKey: 'task_id'})
+SubTask.belongsTo(Task, {foreignKey: 'task_id'})
+
+Task.sync().then(() => {
   console.log('table tache created');
 });
-module.exports = Tache;
+module.exports = Task;

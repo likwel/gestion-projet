@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('head'); %>
+
+    <head>
+        <link href="/assets/css/tache.css" rel="stylesheet" />
+    </head>
+    <style>
+
+
+    </style>
+
+
+    <body class="bg-theme bg-theme11 overflow-hidden">
+
+        <!-- Start wrapper-->
+        <div id="wrapper">
+
+            <!--Start sidebar-wrapper-->
+            <%- include('sidebar'); %>
+                <!--End sidebar-wrapper-->
+
+                <!--Start topbar header-->
+                <%- include('header'); %>
+                    <!--End topbar header-->
+
+                    <div class="clearfix"></div>
+
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+
+                            <!--Start Dashboard Content-->
+                            <div class="card-action-tache d-flex m-0 mt-3 p-1 justify-content-between align-items-center">
+                                
+                                <div>
+                                    <button class="btn ml-2 btn-sm btn-outline-primary border-white text-white btn-new-subtask" onclick="openModalNewSubTask(this)"><i
+                                            class="zmdi zmdi-plus-1"></i> Créer une sous-tâche</button>
+                                    <button class="btn btn-sm btn-outline-info"><span class="zmdi zmdi-swap-vertical"></span> Filtrer</button>
+                                    
+                                </div>
+                                <div class="box">
+                                    <span></span>
+                                    <h4 class="text-white text-uppercase pr-2 pl-2 m-auto" id="title-project"></h4>
+                                </div>
+                                <!-- <div class="border-blur"></div> -->
+                            </div>
+
+                            <div class="row m-0 mt-3 card-liste-tache">
+
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-primary badge-title mt-2">A faire</span>
+                                    <div class="container-tache dropzone" id="afaire">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-warning badge-title mt-2">En cours</span>
+                                    <div class="container-tache dropzone" id="encours">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-success badge-title mt-2">Terminé</span>
+                                    <div class="container-tache dropzone" id="termine">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-3 col-lg-3 h-100 text-center">
+                                    <span class="badge badge-danger badge-title mt-2">Livré</span>
+                                    <div class="container-tache dropzone" id="livre">
+
+
+                                    </div>
+
+                                </div>
+                            </div><!--End Row-->
+
+                            <!--End Dashboard Content-->
+
+                            <!--start overlay-->
+                            <div class="overlay toggle-menu"></div>
+                            <!--end overlay-->
+
+                        </div>
+                        <!-- End container-fluid-->
+
+                    </div><!--End content-wrapper-->
+                    <!--Start Back To Top Button-->
+                    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                    <!--End Back To Top Button-->
+
+                    <!--Start footer-->
+                    <!-- <%- include('footer'); %> -->
+                    <!--End footer-->
+
+                    <!--start color switcher-->
+                    <!-- <%- include('parametre'); %> -->
+                    <!--end color switcher-->
+
+        </div><!--End wrapper-->
+
+        <!-- Bootstrap core JavaScript-->
+
+        <%- include('script'); %>
+            
+
+    </body>
+
+
+</html>
+<script>
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const task_id = urlParams.get('id');
+    // const task_id = urlParams.get('task_id');
+
+    function getAllSubTask() {
+
+        // console.log(task_id);
+
+        let request = ""
+        let request_tache = ""
+
+        request = "/task/getAllSubTaskByTacheId/" +task_id
+        request_tache = "/task/subtask/getById/" + task_id
+
+
+        fetch("/project/task/getById/"+task_id).then(resp => resp.json())
+            .then(pr => {
+                console.log(pr);
+                if(pr){
+                    document.querySelector("#title-project").innerHTML = pr.name
+                    document.querySelector(".btn-new-subtask").setAttribute("data-project-id", pr)
+                }
+                
+            })
+        
+
+        fetch(request_tache).then(resp => resp.json())
+            .then(pr => {
+                // console.log(pr);
+                if(pr){
+                    // document.querySelector("#title-project").innerHTML = pr.name
+                    document.querySelector(".project-"+pr.projet_id).classList.add('active');
+                    document.querySelector(".project-"+pr.projet_id).scrollIntoView(false);
+
+                    // document.querySelector(".btn-new-task").setAttribute("data-project-id", pr.projet_id)
+                }
+                
+            })
+
+        fetch(request).then(res => res.json())
+            .then(data => {
+                let htm_afaire = ""
+                let htm_encours = ""
+                let htm_termine = ""
+                let htm_bloque = ""
+
+                for (let tache of data) {
+                    // console.log(tache);
+                    
+                    var date1 = new Date(tache.startedAt);
+                    var date2 = new Date();
+                    var date3 = new Date(tache.startedAt);
+                    var date4 = new Date(tache.startedAt);
+                    // différence des heures
+                    var time_diff = date2.getTime() - date1.getTime();
+                    var time_diff_2 = date2.getTime() - date3.getTime();
+                    var time_diff_3 = date2.getTime() - date4.getTime();
+                    // différence de jours
+                    var days_Diff = time_diff / (1000 * 3600 * 24);
+                    var days_Diff_2 = time_diff_2 / (1000 * 3600 * 24);
+                    var days_Diff_3 = time_diff_2 / (1000 * 3600 * 24);
+                    // afficher la différence
+
+                    let daty_class = "";
+
+                    let day_reste = tache.estimation - days_Diff;
+
+                    let day_reste_str = day_reste.toString()
+
+                    let day_nb = day_reste_str.split(".")[0] =="0"?"" : day_reste_str.split(".")[0] + "j ";
+                    let day_virg = parseFloat("0." + day_reste_str.split(".")[1])
+                    let day_heure = day_virg * 24;
+
+                    let day_min_str = day_heure.toString();
+
+                    day_heure = day_min_str.split(".")[0]
+
+                    let day_min = parseInt(parseFloat("0." + day_min_str.split(".")[1])*60)
+
+                    let reste_str = day_nb +day_heure+"h "+day_min +"min"
+
+                    const rtf = new Intl.RelativeTimeFormat('fr', {
+                        numeric: 'auto',
+                    })
+
+                    tache.terminated = rtf.format(Math.round(days_Diff_2), 'day')
+                    tache.devivered = rtf.format(Math.round(days_Diff_3), 'day')
+                    
+
+                    if(parseInt(days_Diff) >= tache.estimation){
+                        daty_class = "badge badge-danger";
+                        tache.expiration = "Expiré il y a "+(day_nb +day_heure+"h ").replaceAll("-","");
+                    }
+                    else{
+                        daty_class = "badge badge-warning";
+                        tache.expiration = "Il reste "+ reste_str;
+                    }
+
+                    // console.log(tache);
+
+                    let photo_user = tache.user.photo?tache.user.photo : "/assets/images/default_profile.png"
+                    
+                    if (tache.status == 1) {
+                        htm_afaire += `
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/task/subtask/getById/')">
+                                <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
+                                    <label class="text-truncate mb-0">${tache.name}</label> 
+                                    <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
+                                        <!--<a href="/projet?id=${task_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <li class="dropdown-divider"></li>-->
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="startSubTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Etre en cours</li>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
+                                    <div>
+                                        <p class="card-text text-break m-0">${tache.description}</p>
+                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé en ${tache.estimation}j</i>
+                                        <!--<i class="zmdi zmdi-timer-off zmtime-fs-10 ${daty_class}"> ${tache.expiration}</i>-->
+                                    </div>
+                                    <!--<a href="/projet?id=${task_id}&task_id=${tache.id}"><i class="zmdi zmdi-border-color mr-2 mt-2"></i></a>-->
+                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                </div>
+                            </div>`
+                        // htm_afaire+=`<div id="yes-drop" class="drag-drop card"> ${tache.name}</div>`
+
+                    } else if (tache.status == 2) {
+                        htm_encours += `
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/task/subtask/getById/')">
+                                <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
+                                    <label class="text-truncate mb-0">${tache.name}</label> 
+                                    <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
+                                        <!--<a href="/projet?id=${task_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <li class="dropdown-divider"></li>-->
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="terminateSubTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Terminer</li>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
+                                    <div>
+                                        <p class="card-text text-break m-0">${tache.description}</p>
+                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> ${tache.estimation}j</i>
+                                        <i class="zmdi zmdi-timer-off zmtime-fs-10 badge ${daty_class}"> ${tache.expiration}</i>
+                                    </div>
+                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                </div>
+                            </div>`
+                    } else if (tache.status == 3) {
+                        htm_termine += `
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/task/subtask/getById/')">
+                                <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
+                                    <label class="text-truncate mb-0">${tache.name}</label> 
+                                    <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
+                                        <!--<a href="/projet?id=${task_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <li class="dropdown-divider"></li>-->
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="deliverySubTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Livrer</li>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
+                                    <div>
+                                        <p class="card-text text-break m-0">${tache.description}</p>
+                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <!--<i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé ${tache.estimation}j</i>-->
+                                        <i class="zmdi zmdi-check-all zmtime-fs-10 badge badge-success"> ${tache.terminated}</i>
+                                    </div>
+                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                </div>
+                            </div>`
+                    } else {
+                        htm_bloque += `
+                            <div class="card text-bg-light mb-1 text-left drag-drop zIndex-1" data-id=${tache.id} ondblclick="openTask(${tache.id}, '/task/subtask/getById/')">
+                                <div class="card-header p-1 pt-0 pb-0 d-flex justify-content-between">
+                                    <label class="text-truncate mb-0">${tache.name}</label> 
+                                    <i class="zmdi zmdi-more-vert cursor-pointer" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu dropdown-menu-right drop-tache-${tache.id}">
+                                        <!--<a href="/projet?id=${task_id}&task_id=${tache.id}" class="dropdown-item pl-2 p-0"><i class="zmdi zmdi-format-align-left"></i> Sous-tâche</a>
+                                        <li class="dropdown-divider"></li>-->
+                                        <li class="dropdown-item pl-2 p-0 cursor-pointer" onclick="archiveSubTask(${tache.id})"><i class="zmdi zmdi-mail-send"></i> Archiver</li>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
+                                    <div class="dropdown">
+                                        <p class="card-text text-break m-0">${tache.description}</p>
+                                        <img src="${photo_user}" class="profil-miniature-img dropdown-toggle" data-toggle="dropdown" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <!-- <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé ${tache.estimation}j</i> -->
+                                        <i class="zmdi zmdi-calendar-check zmtime-fs-10 badge badge-danger"> ${tache.devivered}</i>
+                                        <div class="dropdown-menu profil-dropdown">
+                                            <dahkjshakshashgajhsghj>
+                                        </div>
+                                    </div>
+                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                    
+                                </div>
+                                
+                            </div>
+                            `
+                    }
+                }
+                // console.log(data);
+                document.querySelector("#afaire").innerHTML = htm_afaire
+                document.querySelector("#encours").innerHTML = htm_encours
+                document.querySelector("#termine").innerHTML = htm_termine
+                document.querySelector("#livre").innerHTML = htm_bloque
+            })
+
+    }
+
+
+    function startSubTask(id_tache) {
+        updateSubTask(id_tache, 2)
+        fetch('/task/start-subtask/' + id_tache + '/' + new Date(), {
+            method: 'POST'
+        });
+        getAllSubTask()
+    }
+
+    function terminateSubTask(id_tache) {
+        updateSubTask(id_tache, 3)
+        fetch('/task/terminate-subtask/' + id_tache + '/' + new Date(), {
+            method: 'POST'
+        });
+        getAllSubTask()
+    }
+
+    function deliverySubTask(id_tache) {
+        updateSubTask(id_tache, 4)
+        fetch('/task/delivery-subtask/' + id_tache + '/' + new Date(), {
+            method: 'POST'
+        });
+        getAllSubTask()
+    }
+
+    function archiveSubTask(id_tache) {
+        updateSubTask(id_tache, 5)
+        getAllSubTask()
+    }
+
+    getAllSubTask()
+
+    /* The dragging code for '.draggable' from the demo above
+    * applies to this demo as well so it doesn't have to be repeated. */
+
+    // enable draggables to be dropped into this
+    interact('.dropzone').dropzone({
+        // only accept elements matching this CSS selector
+        // accept: '#yes-drop',
+        accept: '.card',
+        // Require a 75% element overlap for a drop to be possible
+        overlap: 0.75,
+
+        // listen for drop related events:
+
+        ondropactivate: function (event) {
+            // add active dropzone feedback
+            event.target.classList.add('drop-active')
+        },
+        ondragenter: function (event) {
+            var draggableElement = event.relatedTarget
+            var dropzoneElement = event.target
+
+            // feedback the possibility of a drop
+            dropzoneElement.classList.add('drop-target')
+            draggableElement.classList.add('can-drop')
+            // draggableElement.textContent = 'Dragged in'
+        },
+        ondragleave: function (event) {
+            // remove the drop feedback style
+            event.target.classList.remove('drop-target')
+            event.relatedTarget.classList.remove('can-drop')
+            // event.relatedTarget.textContent = 'Dragged out'
+        },
+        ondrop: function (event) {
+            // event.relatedTarget.textContent = 'Dropped'
+            // dropzoneElement.classList.add('drop-target')
+            // event.relatedTarget.classList.remove('can-drop')
+            // let status = event.target.id == "outer-dropzone"? 1 : 0;
+            let status = event.target.id
+            let current_status = event.relatedTarget.parentElement.id
+
+            // document.appendChild(event.target)
+
+            // event.target.remove()
+
+            // event.target.appendChild()
+            // window.reload()
+
+            let id_tache = event.relatedTarget.getAttribute("data-id")
+
+            let status_nbr = 1;
+
+            // if (status == "afaire" && (current_status != "encours" || current_status != "termine" || current_status != "livre")) {
+            //     status_nbr = 1;
+            //     updateSubTask(id_tache, status_nbr)
+            // } else 
+            if (status == "encours" && current_status == "afaire") {
+                status_nbr = 2;
+                startSubTask(id_tache)
+                // updateSubTask(id_tache, status_nbr)
+            } else if (status == "termine" && current_status == "encours") {
+                status_nbr = 3;
+                terminateSubTask(id_tache)
+                // updateSubTask(id_tache, status_nbr)
+            } else if (status == "livre" && current_status == "termine") {
+                status_nbr = 4;
+                deliverySubTask(id_tache)
+                // updateSubTask(id_tache, status_nbr)
+            } else {
+                status_nbr = 1;
+                getAllSubTask()
+            }
+
+            // updateSubTask(id_tache, status_nbr)
+
+            // console.log(event.relatedTarget.parentElement.id);
+
+            // if (status_nbr != 0) {
+                
+            // }
+
+
+            // getAllSubTask()
+
+
+        },
+        ondropdeactivate: function (event) {
+            // remove active dropzone feedback
+            event.target.classList.remove('drop-active')
+            event.target.classList.remove('drop-target')
+        }
+    })
+
+    // window.dragMoveListener = dragMoveListener;
+    interact('.drag-drop')
+        .draggable({
+            inertia: true,
+            modifiers: [
+                interact.modifiers.restrictRect({
+                    // restriction: 'parent',
+                    restriction: 'child',
+                    endOnly: true
+                })
+            ],
+            autoScroll: true,
+            // dragMoveListener from the dragging demo above
+            listeners: { move: dragMoveListener }
+        })
+
+
+    function getUser(param, user_id){
+
+        param.parentElement.querySelector(".profil-dropdown").style.display = "block"
+        param.parentElement.querySelector(".profil-dropdown").style.zIndex = "9999"
+
+        fetch("/user/getUserById/"+user_id).then(resp=>resp.json())
+            .then(data => {
+                // console.log(data);
+
+                let img = data.photo ? data.photo : "https://i.imgur.com/G1pXs7D.jpg"
+
+                let htm = `
+
+                    <div class="card-profil-over">
+                        <div class="top-container">
+                            <img src="${img}" class="img-fluid profile-image" width="40">
+                            
+                            <div class="ml-1">
+                                <h6 class="name text-break">${data.fullname}</h6>
+                            </div>
+                            
+                        </div>
+                        <p class="mail text-break text-center">${data.email}</p>
+
+                        <div class="middle-container d-flex justify-content-between align-items-center mt-1 p-1">
+                                <button class="btn btn-outline-primary btn-sm"><i class="zmdi zmdi-whatsapp"></i></button>
+                                <button class="btn btn-outline-info btn-sm"><i class="zmdi zmdi-facebook"></i></button>
+                                <button class="btn btn-outline-danger btn-sm"><i class="zmdi zmdi-email"></i></button>
+                        </div>
+
+                        <div class="recent-border mt-2">
+                            <span class="recent-orders text-center w-100">${data.roles}</span>
+                        </div>
+                        <!--<div class="wishlist-border pt-2">
+                            <span class="wishlist">Wishlist</span>
+                        </div>
+                        <div class="fashion-studio-border pt-2">
+                            <span class="fashion-studio">Fashion studio</span>
+                        </div>-->
+                    </div>
+                `
+
+                param.parentElement.querySelector(".profil-dropdown").innerHTML = htm
+
+            })
+    }
+
+    function outUser(param){
+        param.parentElement.querySelector(".profil-dropdown").style.display = "none"
+    }
+
+
+</script>

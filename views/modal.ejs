@@ -35,7 +35,7 @@
                 </button>
             </div>
             <div class="modal-body bg-info">
-                <form action="/projet/create" method="post">
+                <form action="/project/create" method="post">
                     <div class="form-group">
                         <label for="exampleInputName" class="sr-only">Nom</label>
                         <div class="position-relative has-icon-right">
@@ -79,7 +79,7 @@
                 </button>
             </div>
             <div class="modal-body bg-dark">
-                <form id="form-tache" action="/projet/tache/create" method="post">
+                <form id="form-tache" action="/project/task/create" method="post">
                     <div class="form-group">
                         <label for="exampleInputName" class="sr-onlye">Nom</label>
                         <div class="position-relative has-icon-right">
@@ -150,7 +150,7 @@
                 </button>
             </div>
             <div class="modal-body bg-dark">
-                <form id="form-soustache" action="/projet/subtask/create" method="post">
+                <form id="form-soustache" action="/task/subtask/create" method="post">
                     <div class="form-group">
                         <label for="exampleInputName" class="sr-onlye">Nom</label>
                         <div class="position-relative has-icon-right">
@@ -179,24 +179,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="exampleInputEmailId" class="sr-onlye">Tâche parent</label>
-                        <div class="position-relative has-icon-right">
-                            <select class="form-control input-shadow" name="task" id="list_scroll_task">
-                                
-                            </select>
-                            <!-- <input type="text" id="exampleInputEmailId" class="form-control input-shadow"
-                                placeholder="Enter chef de projet" id="pr-manager" name="description"></input> -->
-
-                        </div>
-                    </div>
-
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="exampleInputEmailId" class="sr-onlye">Niveau de tâche</label>
                         <div class="position-relative has-icon-right">
-                            <input type="number" name="level" id="pr-estimation" min="1" max="10" class="form-control input-shadow" value="10">
+                            <input type="number" name="level" id="pr-estimation" min="1" max="10" class="form-control input-shadow" value="1">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="exampleInputEmailId" class="sr-onlye">Niveau de priorité</label>

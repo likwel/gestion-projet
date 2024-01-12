@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // Assigning users to the variable User
-const Project = require('../models/projet');
+const Project = require('../models/project');
 
 const allProject = async (req, res) => {
     Project.findAll().then(result => {

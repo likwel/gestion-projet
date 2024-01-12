@@ -17,7 +17,7 @@ router.post('/terminate-subtask/:id_tache/:terminatedAt', terminateSubTache)
 
 router.post('/delivery-subtask/:id_tache/:deliveredAt', deliverySubTache)
 
-router.get('/tache-subtask/getById/:id', getSubTacheById)
+router.get('/subtask/getById/:id', getSubTacheById)
 
 router.get('/getAllSubTaskByProjectId/:projet_id', allSubTacheByIdProject)
 

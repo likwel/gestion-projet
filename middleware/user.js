@@ -2,7 +2,7 @@
 const express = require("express");
 const db = require('../connexion');
 //Assigning db.users to User variable
-const User = require('../models/equipe');
+const User = require('../models/user');
 
 //Function to check if username or email already exist in the database
 //this is to avoid having two users with the same username and email

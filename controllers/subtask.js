@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 
 // Assigning users to the variable User
-const SousTache = require('../models/subtask');
-const User = require('../models/equipe');
-const Task = require('../models/tache');
+const Subtask = require('../models/subtask');
+const User = require('../models/user');
+const Task = require('../models/task');
 
 const allSubTache = async (req, res) => {
-    SousTache.findAll().then(result => {
+    Subtask.findAll().then(result => {
         res.send(result);
     })
 }
@@ -16,7 +16,7 @@ const allSubTacheByIdProject = async (req, res) => {
 
     let id = req.params.projet_id
 
-    SousTache.findAll({
+    Subtask.findAll({
         include: [{ model: Task}, { model: User}],
         where : {
             projet_id : id
@@ -30,18 +30,23 @@ const allSubTacheByIdTache = async (req, res) => {
 
     let id = req.params.task_id
 
-    SousTache.findAll({
+    Subtask.findAll({
         include: [{ model: Task}, { model: User}],
         where : {
             task_id : id
         }
     }).then(result => {
-        res.send(result);
+        if(result){
+            res.send(result);
+        }else{
+            res.send(false);
+        }
+        
     })
 }
 
 const allSubTacheByStatus = async (req, res) => {
-    SousTache.findAll({
+    Subtask.findAll({
         where : {
             status : req.params.status
         }
@@ -52,7 +57,7 @@ const allSubTacheByStatus = async (req, res) => {
 
 const updateSubTache = async (req, res) => {
 
-    SousTache.update({ status: req.params.status }, {
+    Subtask.update({ status: req.params.status }, {
         where: {
             id : req.params.id_tache
         }
@@ -62,7 +67,7 @@ const updateSubTache = async (req, res) => {
 
 const startSubTache = async (req, res) => {
 
-    SousTache.update({ startedAt: req.params.startedAt }, {
+    Subtask.update({ startedAt: req.params.startedAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -72,7 +77,7 @@ const startSubTache = async (req, res) => {
 
 const terminateSubTache = async (req, res) => {
 
-    SousTache.update({ terminatedAt: req.params.terminatedAt }, {
+    Subtask.update({ terminatedAt: req.params.terminatedAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -83,7 +88,7 @@ const terminateSubTache = async (req, res) => {
 
 const deliverySubTache = async (req, res) => {
 
-    SousTache.update({ deliveredAt: req.params.deliveredAt }, {
+    Subtask.update({ deliveredAt: req.params.deliveredAt }, {
         where: {
             id : req.params.id_tache
         }
@@ -92,13 +97,18 @@ const deliverySubTache = async (req, res) => {
 }
 
 const getSubTacheById = async (req, res) => {
-    SousTache.findOne({
+    Subtask.findOne({
         include: { model: User},
         where : {
             id : req.params.id
         }
     }).then(result => {
-        res.send(result);
+        if(result){
+            res.send(result);
+        }else{
+            res.send(false)
+        }
+        
     })
 }
 
@@ -109,7 +119,7 @@ const saveSubTache = async (req, res) => {
 
     // res.redirect(`/projet?id=${id_projet}`);
 
-    SousTache.create({
+    Subtask.create({
         name : req.body.name,
         description : req.body.description,
         manager_id  : req.body.manager,
@@ -118,10 +128,9 @@ const saveSubTache = async (req, res) => {
         user_id : req.body.user,
         estimation : req.body.estimation,
         priorite : req.body.priorite,
-        task_level : req.body.level,
         status : req.body.status,
     }).then(result=>{
-        res.redirect(`/projet?id=${id_projet}&task_id=${id_task}`);
+        res.redirect(`/project/task?id=${id_task}`);
     });
 
 }

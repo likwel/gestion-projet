@@ -1,8 +1,8 @@
 //importing modules
 const express = require('express')
-const userController = require('../Controllers/equipe')
+const userController = require('../controllers/user')
 const { signup, login, allUser , getAllManager, getUserById} = userController
-const userAuth = require('../middleware/equipe')
+const userAuth = require('../middleware/user')
 
 const router = express.Router()
 
@@ -19,8 +19,8 @@ router.get('/login', (req, res) => {
 })
 
 //appel template
-router.get('/liste', (req, res) => {
-    res.render('equipe')
+router.get('/', (req, res) => {
+    res.render('user')
 })
 router.get('/create', (req, res) => {
     res.render('create-equipe')

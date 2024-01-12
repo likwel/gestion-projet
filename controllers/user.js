@@ -7,7 +7,7 @@ const express = require('express');
 const app = express();
 
 // Assigning users to the variable User
-const User = require('../models/equipe');
+const User = require('../models/user');
 
 //signing a user up
 //hashing users password before its saved to the database with bcrypt
@@ -29,7 +29,7 @@ const signup = async (req, res) => {
 
         if(req.body.password == req.body.repassword && req.body.checked == "on"){
             User.create(data).then(rep=>{
-                res.redirect("/")
+                res.redirect("/user")
             });
         }else{
             return res.status(409).send("Mot de passe invalide");
