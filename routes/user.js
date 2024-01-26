@@ -1,7 +1,7 @@
 //importing modules
 const express = require('express')
 const userController = require('../controllers/user')
-const { signup, login, allUser , getAllManager, getUserById} = userController
+const { signup, login, allUser , getAllManager, getUserById, getAllProjectByUser, getAllTaskByUser} = userController
 const userAuth = require('../middleware/user')
 
 const router = express.Router()
@@ -36,5 +36,7 @@ router.get('/get_all_equipe', allUser)
 router.get('/get_all_project_manager', getAllManager)
 
 router.get('/getUserById/:id', getUserById)
+router.get('/getProjectById/:user_id', getAllProjectByUser)
+router.get('/getTaskById/:user_id', getAllTaskByUser)
 
 module.exports = router

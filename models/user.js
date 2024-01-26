@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const db = require('../connexion');
+// const Task = require('../models/task');
 
 const User = db.define('user', {
 
@@ -36,8 +37,7 @@ const User = db.define('user', {
     //     allowNull: true
     // },
 });
-
 User.sync().then(() => {
-  console.log('table equipe created');
+  console.log('table user created');
 });
 module.exports = User;

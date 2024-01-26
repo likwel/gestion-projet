@@ -8,6 +8,8 @@ const app = express();
 
 // Assigning users to the variable User
 const User = require('../models/user');
+const Project = require("../models/project");
+const Task = require("../models/task");
 
 //signing a user up
 //hashing users password before its saved to the database with bcrypt
@@ -126,6 +128,7 @@ const allUser = async (req, res) => {
 const getUserById = async (req, res) => {
     User.findOne({
         where : {
+            // include: [{ model: Task}],
             id : req.params.id
         }
     }).then(result => {
@@ -143,10 +146,43 @@ const getAllManager = async (req, res) => {
     })
 }
 
+const getAllProjectByUser = async (req, res) => {
+    Project.findAll({
+        where : {
+            user_id : req.params.user_id
+        }
+    }).then(result => {
+        if(result){
+
+            res.send(result);
+        }else{
+            res.send([])
+        }
+    })
+}
+
+
+const getAllTaskByUser = async (req, res) => {
+    Task.findAll({
+        where : {
+            user_id : req.params.user_id
+        }
+    }).then(result => {
+        if(result){
+
+            res.send(result);
+        }else{
+            res.send([])
+        }
+    })
+}
+
 module.exports = {
     signup,
     login,
     allUser,
     getAllManager,
     getUserById,
+    getAllProjectByUser,
+    getAllTaskByUser
 };

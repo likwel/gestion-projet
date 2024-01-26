@@ -3,7 +3,7 @@ const app = express();
 
 
 const index = async (req, res) => {
-    res.render('calendar');
+    res.render('agenda');
 }
 
 module.exports = {

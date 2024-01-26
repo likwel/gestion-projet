@@ -198,6 +198,8 @@
                     console.log(tache);
 
                     let photo_user = tache.user.photo?tache.user.photo : "/assets/images/default_profile.png"
+
+                    let subtasks_length = tache.subtasks.length > 0 ? `<span class="zmdi zmdi-attachment-alt badge badge-info mt-1 cursor-pointer"> ${tache.subtasks.length}</span>` : "";
                     
                     if (tache.status == 1) {
                         htm_afaire += `
@@ -213,14 +215,17 @@
                                     </div>
                                 </div>
                                 <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
-                                    <div>
+                                    <div class="dropdown">
                                         <p class="card-text text-break m-0">${tache.description}</p>
-                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <img src="${photo_user}" class="profil-miniature-img dropdown-toggle" data-toggle="dropdown" onclick="getUser(this,${tache.user_id})" alt="u">
                                         <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé en ${tache.estimation}j</i>
-                                        <!--<i class="zmdi zmdi-timer-off zmtime-fs-10 ${daty_class}"> ${tache.expiration}</i>-->
+                                        <div class="dropdown-menu profil-dropdown">
+                                        </div>
                                     </div>
-                                    <!--<a href="/project/task?id=${tache.id}"><i class="zmdi zmdi-border-color mr-2 mt-2"></i></a>-->
-                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                    <div class="d-flex flex-column">
+                                        <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                        ${subtasks_length}
+                                    </div>
                                 </div>
                             </div>`
                         // htm_afaire+=`<div id="yes-drop" class="drag-drop card"> ${tache.name}</div>`
@@ -239,15 +244,17 @@
                                     </div>
                                 </div>
                                 <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
-                                    <div>
+                                    <div class="dropdown">
                                         <p class="card-text text-break m-0">${tache.description}</p>
-                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
+                                        <img src="${photo_user}" class="profil-miniature-img dropdown-toggle" data-toggle="dropdown" onclick="getUser(this,${tache.user_id})" alt="u">
                                         <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> ${tache.estimation}j</i>
                                         <i class="zmdi zmdi-timer-off zmtime-fs-10 badge ${daty_class}"> ${tache.expiration}</i>
+                                        <div class="dropdown-menu profil-dropdown">
+                                        </div>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
-                                        <span class="badge badge-info mt-1">${tache.subtasks.length}</span>
+                                        ${subtasks_length}
                                     </div>
                                     
                                 </div>
@@ -266,13 +273,17 @@
                                     </div>
                                 </div>
                                 <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
-                                    <div>
+                                    <div class="dropdown">
                                         <p class="card-text text-break m-0">${tache.description}</p>
-                                        <img src="${photo_user}" class="profil-miniature-img" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
-                                        <!--<i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé ${tache.estimation}j</i>-->
+                                        <img src="${photo_user}" class="profil-miniature-img" onclick="getUser(this,${tache.user_id})" alt="u">
                                         <i class="zmdi zmdi-check-all zmtime-fs-10 badge badge-success"> ${tache.terminated}</i>
+                                        <div class="dropdown-menu profil-dropdown">
+                                        </div>
                                     </div>
-                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                    <div class="d-flex flex-column">
+                                        <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                        ${subtasks_length}
+                                    </div>
                                 </div>
                             </div>`
                     } else {
@@ -291,14 +302,15 @@
                                 <div class="card-body p-1 pt-0 pb-0 d-flex justify-content-between fs-12">
                                     <div class="dropdown">
                                         <p class="card-text text-break m-0">${tache.description}</p>
-                                        <img src="${photo_user}" class="profil-miniature-img dropdown-toggle" data-toggle="dropdown" onmouseover="getUser(this,${tache.user_id})" onmouseout="outUser(this)"  alt="u">
-                                        <!-- <i class="zmdi zmdi-time zmtime-fs-10 badge badge-info"> Estimé ${tache.estimation}j</i> -->
+                                        <img src="${photo_user}" class="profil-miniature-img dropdown-toggle" data-toggle="dropdown" onclick="getUser(this,${tache.user_id})" alt="u">
                                         <i class="zmdi zmdi-calendar-check zmtime-fs-10 badge badge-danger"> ${tache.devivered}</i>
                                         <div class="dropdown-menu profil-dropdown">
-                                            <dahkjshakshashgajhsghj>
                                         </div>
                                     </div>
-                                    <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                    <div class="d-flex flex-column">
+                                        <i class="zmdi zmdi-border-color mr-2 mt-2"></i>
+                                        ${subtasks_length}
+                                    </div>
                                     
                                 </div>
                                 
@@ -456,53 +468,92 @@
 
     function getUser(param, user_id){
 
-        param.parentElement.querySelector(".profil-dropdown").style.display = "block"
-        param.parentElement.querySelector(".profil-dropdown").style.zIndex = "9999"
+        // param.parentElement.querySelector(".profil-dropdown").style.display = "block"
+        // param.parentElement.querySelector(".profil-dropdown").style.zIndex = "9999"
+        $("#modalUser").modal("show");
 
         fetch("/user/getUserById/"+user_id).then(resp=>resp.json())
             .then(data => {
-                // console.log(data);
+                console.log(data);
 
                 let img = data.photo ? data.photo : "https://i.imgur.com/G1pXs7D.jpg"
+                
+                let role =""
 
-                let htm = `
+                let user_id = data.id
 
-                    <div class="card-profil-over">
-                        <div class="top-container">
-                            <img src="${img}" class="img-fluid profile-image" width="40">
-                            
-                            <div class="ml-1">
-                                <h6 class="name text-break">${data.fullname}</h6>
+                switch (data.roles) {
+                    case "SM":
+                        role = "Scrum Manager"
+                        break;
+                    case "DEV":
+                        role = "Développeur"
+                        break;
+                    case "ADM":
+                        role = "Administrateur"
+                        break;
+                    case "QA":
+                        role = "Testeur Qualité"
+                        break;
+                    case "PO":
+                        role = "Product Owner"
+                        break;
+                
+                    default:
+                        role = "Utilisateur"
+                        break;
+                }
+
+                fetch("/user/getProjectById/"+user_id).then(r=>r.json())
+                .then(pr => {
+                    console.log("pr");
+                    console.log(pr);
+
+                    let pr_len = pr.length
+
+                    fetch("/user/getTaskById/"+user_id).then(r=>r.json())
+                    .then(task => {
+                        let t_len =task.length
+
+                        let htm = `
+
+                            <div class="card-profil-over">
+                                <div class="top-container">
+                                    <img src="${img}" class="img-fluid profile-image" width="40">
+                                    
+                                    <div class="ml-1">
+                                        <h6 class="name">${data.fullname}</h6>
+                                        <p class="mail text-break">${data.email}</p>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="middle-container d-flex justify-content-between align-items-center mt-1 p-1">
+                                        <button class="btn btn-outline-primary btn-sm"><i class="zmdi zmdi-whatsapp"></i></button>
+                                        <button class="btn btn-outline-info btn-sm"><i class="zmdi zmdi-facebook"></i></button>
+                                        <button class="btn btn-outline-danger btn-sm"><i class="zmdi zmdi-email"></i></button>
+                                </div>
+
+                                <div class="recent-border mt-2">
+                                    <span class="recent-orders text-center w-100">${role}</span>
+                                </div>
+                                <div class="wishlist-border pt-2">
+                                    <span class="wishlist">${pr_len} projets</span>
+                                </div>
+                                <div class="fashion-studio-border pt-2">
+                                    <span class="fashion-studio">${t_len} tâches</span>
+                                </div>
                             </div>
-                            
-                        </div>
-                        <p class="mail text-break text-center">${data.email}</p>
+                        `
 
-                        <div class="middle-container d-flex justify-content-between align-items-center mt-1 p-1">
-                                <button class="btn btn-outline-primary btn-sm"><i class="zmdi zmdi-whatsapp"></i></button>
-                                <button class="btn btn-outline-info btn-sm"><i class="zmdi zmdi-facebook"></i></button>
-                                <button class="btn btn-outline-danger btn-sm"><i class="zmdi zmdi-email"></i></button>
-                        </div>
+                        document.querySelector("#userBodyModal").innerHTML = htm
+                    })
 
-                        <div class="recent-border mt-2">
-                            <span class="recent-orders text-center w-100">${data.roles}</span>
-                        </div>
-                        <!--<div class="wishlist-border pt-2">
-                            <span class="wishlist">Wishlist</span>
-                        </div>
-                        <div class="fashion-studio-border pt-2">
-                            <span class="fashion-studio">Fashion studio</span>
-                        </div>-->
-                    </div>
-                `
+                })
 
-                param.parentElement.querySelector(".profil-dropdown").innerHTML = htm
+                
 
             })
-    }
-
-    function outUser(param){
-        param.parentElement.querySelector(".profil-dropdown").style.display = "none"
     }
 
 

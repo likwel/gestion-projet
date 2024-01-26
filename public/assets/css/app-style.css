@@ -4197,3 +4197,21 @@ table.grid td {
 
 
 }
+
+/*Agenda*/
+
+.fc-col-header-cell{
+    color: white;
+    text-transform: uppercase;
+}
+.fc-daygrid-day-number{
+    color: #000;
+}
+.fc-button-primary{
+    background-color: white !important;
+    color: #004085 !important;
+    padding: 0 0.65em !important;
+    border-color: gray !important;
+}
+
+/* End Agenda*/

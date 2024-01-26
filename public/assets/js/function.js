@@ -23,11 +23,11 @@ function openModalNewSubTask(event) {
 
     // console.log(event.dataset.projectId);
 
-    let proje_id = event.dataset.projectId
+    let old_task_id = event.getAttribute("data-project-id")
 
-    console.log(proje_id);
+    console.log(old_task_id);
 
-    document.querySelector("#form-soustache").setAttribute("action", "/task/subtask/create/" + proje_id + "/" + task_id)
+    document.querySelector("#form-soustache").setAttribute("action", "/task/subtask/create/" + old_task_id + "/" + task_id)
 
     fetch("/user/get_all_project_manager").then(resp => resp.json())
         .then(data => {

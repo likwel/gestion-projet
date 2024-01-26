@@ -133,10 +133,10 @@
 
         fetch("/project/task/getById/"+task_id).then(resp => resp.json())
             .then(pr => {
-                console.log(pr);
+                // console.log(pr);
                 if(pr){
                     document.querySelector("#title-project").innerHTML = pr.name
-                    document.querySelector(".btn-new-subtask").setAttribute("data-project-id", pr)
+                    document.querySelector(".btn-new-subtask").setAttribute("data-project-id", pr.projet_id)
                 }
                 
             })

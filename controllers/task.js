@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 
 // Assigning users to the variable User
-const Task = require('../models/task');
 const User = require('../models/user');
+const Task = require('../models/task');
 const Subtask = require('../models/subtask');
 
 const allTache = async (req, res) => {

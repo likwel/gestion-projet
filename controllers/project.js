@@ -29,7 +29,7 @@ const saveProject = async (req, res) => {
         icon  :req.body.icon,
         status : req.body.status,
     }).then(result=>{
-        res.redirect(`/projet?id=${result.id}`);
+        res.redirect(`/project?id=${result.id}`);
     });
 
 }
